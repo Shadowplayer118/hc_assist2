@@ -50,7 +50,7 @@ if (!empty($data['household'])) {
     $types .= "s";
 }
 
-$query .= " ORDER BY last_updated DESC";
+$query .= " ORDER BY patient_id DESC";
 
 $stmt = $conn->prepare($query);
 if (!empty($params)) {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminHeader from './AAA_admin_header';
+import AddPatientModal from './admin_modals/add_patient_modal';
 
 function PatientTable() {
   const [patients, setPatients] = useState([]);
@@ -9,6 +10,9 @@ function PatientTable() {
   const [age, setAge] = useState(""); // For age filter
   const [purok, setPurok] = useState(""); // For purok filter
   const [household, setHousehold] = useState(""); // For household filter
+
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
 
   // Fetch patients based on current filters
   const fetchPatients = async (filters = {}) => {
@@ -37,7 +41,7 @@ function PatientTable() {
       household,
     };
     fetchPatients(filters); // Fetch with applied filters
-  }, [name, bloodType, age, purok, household]); // Trigger effect when any of these values change
+  }, [name, bloodType, age, purok, household, patients]); // Trigger effect when any of these values change
 
   const handleView = (patientId) => {
     console.log("View patient", patientId);
@@ -53,6 +57,16 @@ function PatientTable() {
     <div>
       <AdminHeader />
       <h2>Patient List</h2>
+
+      <button onClick={() => setIsAddModalOpen(true)}>Add New Patient</button>
+
+        {isAddModalOpen && (
+          <AddPatientModal
+          onClose={() => setIsAddModalOpen(false)}
+          // onSubmit={handleAddPatient}
+          />
+        )}
+
 
       {/* Filter Section: Name Search */}
       <div style={{ marginBottom: "20px" }}>
