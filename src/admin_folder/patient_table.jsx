@@ -2,19 +2,25 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminHeader from './AAA_admin_header';
 import AddPatientModal from './admin_modals/add_patient_modal';
+import EditPatientModal from "./admin_modals/edit_patient_modal";
 
 function PatientTable() {
   const [patients, setPatients] = useState([]);
-  const [name, setName] = useState(""); // For name search
-  const [bloodType, setBloodType] = useState(""); // For blood type filter
-  const [age, setAge] = useState(""); // For age filter
-  const [purok, setPurok] = useState(""); // For purok filter
-  const [household, setHousehold] = useState(""); // For household filter
-
+  const [name, setName] = useState("");
+  const [bloodType, setBloodType] = useState("");
+  const [age, setAge] = useState("");
+  const [purok, setPurok] = useState("");
+  const [household, setHousehold] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState(null); // NEW: to hold data for Edit modal
 
+  const [filterOptions, setFilterOptions] = useState({
+    blood_types: [],
+    ages: [],
+    puroks: [],
+    households: [],
+  });
 
-  // Fetch patients based on current filters
   const fetchPatients = async (filters = {}) => {
     try {
       const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/load_patients.php", filters);
@@ -24,14 +30,7 @@ function PatientTable() {
       console.error("Error fetching patients:", err);
     }
   };
-  const [filterOptions, setFilterOptions] = useState({
-    blood_types: [],
-    ages: [],
-    puroks: [],
-    households: [],
-  });
 
-  // Automatically fetch patients when any filter changes
   useEffect(() => {
     const filters = {
       name,
@@ -40,17 +39,40 @@ function PatientTable() {
       purok,
       household,
     };
-    fetchPatients(filters); // Fetch with applied filters
-  }, [name, bloodType, age, purok, household, patients]); // Trigger effect when any of these values change
+    fetchPatients(filters);
+  }, [name, bloodType, age, purok, household, patients]);
 
-  const handleView = (patientId) => {
-    console.log("View patient", patientId);
-    // Navigate or display modal, etc.
+  const handleEdit = (patientId) => {
+    const patientToEdit = patients.find(p => p.patient_id === patientId);
+    if (patientToEdit) {
+      setSelectedPatient(patientToEdit); // Open modal with selected patient's data
+    }
+  };
+  
+  const handleCloseEditModal = () => {
+    setSelectedPatient(null);
+    fetchPatients(); // Refresh after edit
   };
 
-  const handleDelete = (patientId) => {
-    console.log("Delete patient", patientId);
-    // Confirm and call delete API here
+  const handleDelete = async (patientId) => {
+
+    const confirmed = window.confirm("Are you sure you want to delete this patient?");
+    if (!confirmed) return;
+
+
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));  // Parse the user object
+      const staffId = user ? user.staff_id : "";; // wherever you're storing the logged-in staff
+      await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/delete_patients.php", {
+        patient_id: patientId,
+        staff_id: staffId
+      });
+      alert("Patient deleted.");
+      // refresh list here
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert("Failed to delete patient.");
+    }
   };
 
   return (
@@ -59,60 +81,61 @@ function PatientTable() {
       <h2>Patient List</h2>
 
       <button onClick={() => setIsAddModalOpen(true)}>Add New Patient</button>
+      {isAddModalOpen && (
+        <AddPatientModal onClose={() => setIsAddModalOpen(false)} />
+      )}
 
-        {isAddModalOpen && (
-          <AddPatientModal
-          onClose={() => setIsAddModalOpen(false)}
-          // onSubmit={handleAddPatient}
-          />
-        )}
+      {selectedPatient && (
+        <EditPatientModal
+          patientData={selectedPatient}
+          onClose={handleCloseEditModal}
+        />
+      )}
 
-
-      {/* Filter Section: Name Search */}
+      {/* Filters */}
       <div style={{ marginBottom: "20px" }}>
-        {/* Name Search Bar */}
         <input
           type="text"
           placeholder="Search by Name"
           value={name}
-          onChange={(e) => setName(e.target.value)} // Trigger filter on change
+          onChange={(e) => setName(e.target.value)}
         />
       </div>
 
-      {/* Patient Table with Filters in Headers */}
+      {/* Table */}
       <table border="1" cellPadding="8">
         <thead>
           <tr>
             <th>Full Name</th>
             <th>
-            <select value={purok} onChange={(e) => setPurok(e.target.value)}>
+              <select value={purok} onChange={(e) => setPurok(e.target.value)}>
                 <option value="">Purok</option>
                 {filterOptions.puroks.map((val) => (
-                <option key={val} value={val}>{val}</option>
+                  <option key={val} value={val}>{val}</option>
                 ))}
               </select>
             </th>
             <th>
-            <select value={household} onChange={(e) => setHousehold(e.target.value)}>
+              <select value={household} onChange={(e) => setHousehold(e.target.value)}>
                 <option value="">Household</option>
                 {filterOptions.households.map((val) => (
-                <option key={val} value={val}>{val}</option>
+                  <option key={val} value={val}>{val}</option>
                 ))}
               </select>
             </th>
             <th>
-            <select value={age} onChange={(e) => setAge(e.target.value)}>
+              <select value={age} onChange={(e) => setAge(e.target.value)}>
                 <option value="">Age</option>
                 {filterOptions.ages.map((val) => (
-                <option key={val} value={val}>{val}</option>
+                  <option key={val} value={val}>{val}</option>
                 ))}
               </select>
             </th>
             <th>
-            <select value={bloodType} onChange={(e) => setBloodType(e.target.value)}>
-                <option value="">BloodType</option>
+              <select value={bloodType} onChange={(e) => setBloodType(e.target.value)}>
+                <option value="">Blood Type</option>
                 {filterOptions.blood_types.map((val) => (
-                <option key={val} value={val}>{val}</option>
+                  <option key={val} value={val}>{val}</option>
                 ))}
               </select>
             </th>
@@ -128,7 +151,7 @@ function PatientTable() {
               <td>{patient.age}</td>
               <td>{patient.blood_type}</td>
               <td>
-                <button onClick={() => handleView(patient.patient_id)}>View</button>
+                <button onClick={() => handleEdit(patient.patient_id)}>Edit</button>
                 <button onClick={() => handleDelete(patient.patient_id)} style={{ marginLeft: "8px" }}>Delete</button>
               </td>
             </tr>

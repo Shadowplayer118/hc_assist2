@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function AddPatientModal({ onClose }) {
+function EditPatientModal({ onClose, patientData = null }) {
   const [formData, setFormData] = useState({
     philhealth_num: "",
     first_name: "",
@@ -16,30 +16,29 @@ function AddPatientModal({ onClose }) {
     blood_type: "",
     household: "",
     patient_image: null,
-    image_preview: 'http://localhost/hc_assist2/src/admin_folder/admin_php/uploads/Patient_Images/PatientDefault.jpg', // For image preview URL
-    full_name: "", // Added full name
+    image_preview: null,
+    patient_id:"",
+    full_name: "",
     staff_id: "",
   });
 
-  // Get full name from localStorage
-  const user = JSON.parse(localStorage.getItem("user"));  // Parse the user object
-  const fullNameFromLocalStorage = user ? `${user.first_name} ${user.last_name}` : "";
-  const staff_id = user ? user.staff_id : "";
-  
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const fullNameFromLocalStorage = user ? `${user.first_name} ${user.last_name}` : "";
+    const staff_id = user ? user.staff_id : "";
 
-
-  // Update form data to include full name from localStorage
-  React.useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
-      full_name: fullNameFromLocalStorage, // Set full name when component mounts
+    setFormData((prev) => ({
+      ...prev,
+      ...patientData, // prefill if editing
+      full_name: fullNameFromLocalStorage,
       staff_id: staff_id,
+      image_preview: patientData?.patient_image || null, // use actual URL if editing
     }));
-  }, []); // Only run once when the component mounts
+  }, [patientData]);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-  
+
     if (type === "file") {
       const file = files[0];
       setFormData((prev) => ({
@@ -48,14 +47,10 @@ function AddPatientModal({ onClose }) {
         image_preview: URL.createObjectURL(file),
       }));
     } else {
-      // Capitalize first letter of name fields
-      let newValue = value;
-      if (["first_name", "mid_name", "last_name"].includes(name)) {
-        newValue = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-      }
-  
+
+      
       if (name === "bdate") {
-        const birthDate = new Date(newValue);
+        const birthDate = new Date(value);
         const today = new Date();
         let age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -63,50 +58,62 @@ function AddPatientModal({ onClose }) {
         if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
           age--;
         }
-  
+
         setFormData((prev) => ({
           ...prev,
-          bdate: newValue,
+          bdate: value,
           age: age.toString(),
         }));
       } else {
         setFormData((prev) => ({
           ...prev,
-          [name]: newValue,
+          [name]: value,
         }));
       }
     }
   };
-  
-  
 
   const handleSubmit = async () => {
     try {
       const formDataToSubmit = new FormData();
+  
+      // Only append changed fields; skip image unless it's updated
       Object.keys(formData).forEach((key) => {
-        formDataToSubmit.append(key, formData[key]);
+        if (key === "image_preview") {
+          if (formData.image_preview instanceof File) {
+            formDataToSubmit.append("image", formData.image_preview);
+          }
+        } else {
+          formDataToSubmit.append(key, formData[key]);
+        }
       });
-
-      const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/add_patients.php", formDataToSubmit, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      alert("Patient added successfully!");
+  
+      // Always include patient ID
+      formDataToSubmit.append("patient_id", patientData.patient_id);
+  
+      // Send to update endpoint only
+      await axios.post(
+        "http://localhost/hc_assist2/src/admin_folder/admin_php/edit_patients.php",
+        formDataToSubmit,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+  
+      alert("Patient updated successfully!");
       onClose();
     } catch (err) {
-      console.error("Error adding patient:", err);
-      alert("Failed to add patient.");
+      console.error("Error updating patient:", err);
+      alert("Failed to update patient.");
     }
   };
+  
 
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
   };
-
 
   return (
     <div
@@ -132,27 +139,34 @@ function AddPatientModal({ onClose }) {
           width: 500,
         }}
       >
-        <h3>Add New Patient</h3>
+        <h3>{patientData ? "Edit Patient" : "Add New Patient"}</h3>
 
-        <div style={{ marginBottom: "10px" }}>
+          <div style={{ marginBottom: "10px" }}>
           <label htmlFor="patient_image">Patient Image</label>
           <input
-            type="file"
-            name="patient_image"
-            onChange={handleChange}
-            accept="image/*"
+          type="file"
+          name="patient_image"
+          onChange={handleChange}
+          accept="image/*"
           />
-          {/* Display image preview if exists */}
-          {formData.image_preview && (
-            <div style={{ marginTop: "10px" }}>
-              <img
-                src={formData.image_preview}
-                alt="Image Preview"
-                style={{ width: "100%", maxHeight: "200px", objectFit: "cover" }}
-              />
-            </div>
+          {(formData.image_preview || true) && (
+          <div style={{ marginTop: "10px" }}>
+          <img
+  src={
+    formData.image_preview instanceof File
+      ? URL.createObjectURL(formData.image_preview)
+      : formData.image_preview && !formData.image_preview.startsWith("blob:")
+        ? `http://localhost/hc_assist2/src/admin_folder/admin_php/uploads/Patient_Images/${formData.image_preview}`
+        : formData.image_preview || `http://localhost/hc_assist2/src/admin_folder/admin_php/uploads/Patient_Images/PatientDefault.jpg`
+  }
+  alt="Image Preview"
+  style={{ width: "100%", maxHeight: "200px", objectFit: "cover" }}
+/>
+
+          </div>
           )}
-        </div>
+          </div>
+
 
         <div style={{ marginBottom: "10px" }}>
           <label htmlFor="philhealth_num">PhilHealth Number</label>
@@ -187,11 +201,35 @@ function AddPatientModal({ onClose }) {
           />
         </div>
 
+ <div style={{ marginBottom: "10px" }}>
+          <label htmlFor="purok">Purok</label>
+          <input
+        name="purok" placeholder="Purok" 
+        value={formData.purok} onChange={handleChange}
+          />
+        </div>
+
         <div style={{ marginBottom: "10px" }}>
           <label htmlFor="bdate">Birth Date</label>
           <input
         name="bdate" placeholder="Birth Date" type="date" 
         value={formData.bdate} onChange={handleChange}
+          />
+        </div>
+
+        <div style={{ marginBottom: "10px" }}>
+          <label htmlFor="contact">Contact Number</label>
+          <input
+          name="contact" placeholder="Contact Number"
+          value={formData.contact} onChange={handleChange}
+          maxLength={11} 
+          />
+        </div>
+
+        <div style={{ marginBottom: "10px" }}>
+          <label htmlFor="household">Household</label>
+          <input name="household" placeholder="Household" 
+          value={formData.household} onChange={handleChange}
           />
         </div>
 
@@ -207,21 +245,12 @@ function AddPatientModal({ onClose }) {
             <option value="A-">A-</option>
             <option value="A+">A+</option>
             <option value="B-">B-</option>
-            <option value="B-">B-</option>
+            <option value="B+">B+</option>
             <option value="AB-">AB-</option>
             <option value="AB+">AB+</option>
             <option value="O-">O-</option>
             <option value="O+">O+</option>
           </select>
-        </div>
-
-
-        <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="purok">Purok</label>
-          <input
-        name="purok" placeholder="Purok" 
-        value={formData.purok} onChange={handleChange}
-          />
         </div>
 
         <div style={{ marginBottom: "10px" }}>
@@ -239,24 +268,6 @@ function AddPatientModal({ onClose }) {
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="age">Age</label>
-          <input
-        name="age" placeholder="Age"
-        value={formData.age} onChange={handleChange}
-        readOnly
-          />
-        </div>
-
-        <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="contact">Contact Number</label>
-          <input
-          name="contact" placeholder="Contact Number"
-          value={formData.contact} onChange={handleChange}
-          maxLength={11} 
-          />
-        </div>
-
-        <div style={{ marginBottom: "10px" }}>
           <label htmlFor="civil_status">Civil Status</label>
           <select
             name="civil_status"
@@ -271,14 +282,20 @@ function AddPatientModal({ onClose }) {
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="household">Household</label>
-          <input name="household" placeholder="Household" 
-          value={formData.household} onChange={handleChange}
+          <label htmlFor="age">Age</label>
+          <input
+            name="age"
+            placeholder="Age"
+            value={formData.age}
+            onChange={handleChange}
+            readOnly
           />
         </div>
 
         <div style={{ marginTop: 10 }}>
-          <button onClick={handleSubmit}>Add</button>
+          <button onClick={handleSubmit}>
+            {patientData ? "Update" : "Add"}
+          </button>
           <button onClick={onClose} style={{ marginLeft: 10 }}>
             Cancel
           </button>
@@ -288,4 +305,4 @@ function AddPatientModal({ onClose }) {
   );
 }
 
-export default AddPatientModal;
+export default EditPatientModal;
