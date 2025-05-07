@@ -4,8 +4,13 @@ import Admin from "./admin_folder/admin_dashboard";
 import Staff from "./staff_folder/staff_dashboard";
 import Midwife from "./midwife_folder/midwife_dashboard";
 import Patient from "./patient_folder/patient_dashboard";
+
+
 import StaffTable from "./admin_folder/staff_table";
 import PatientTable from "./admin_folder/patient_table";
+import ActivityLogTable from "./admin_folder/activity_log";
+import DeletedBackupTable from "./admin_folder/deleted_backup";
+
 import PrivateRoute from "./PrivateRoute";
 
 function AppRoutes() {
@@ -29,8 +34,11 @@ function AppRoutes() {
     { path: "/patient_folder/patient", element: <Patient /> },
 
     // Admin Routes
+    { path: "/admin_folder/deleted_backup", element: <DeletedBackupTable /> },
+    { path: "/admin_folder/activity_log", element: <ActivityLogTable /> },
     { path: "/admin_folder/staff_table", element: <StaffTable /> },
     { path: "/admin_folder/patient_table", element: <PatientTable /> },
+    
   ];
 
   return (
