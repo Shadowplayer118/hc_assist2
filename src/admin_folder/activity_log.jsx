@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import AdminHeader from './AAA_admin_header';
+import { Link } from "react-router-dom";
+
 
 function ActivityLogTable() {
   const [activityLogs, setActivityLogs] = useState([]);
   const [filterDate, setFilterDate] = useState("");
   const [filterUser, setFilterUser] = useState("");
   const [filterAction, setFilterAction] = useState("");
+  const [filterTable, setFilterTable] = useState("");
+
+  const [filterOptions, setFilterOptions] = useState({
+    actions: [],
+    target_tables: [],
+  });
 
   const fetchActivityLogs = async (filters = {}) => {
     try {
       const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/activity_log.php", filters);
       setActivityLogs(response.data.logs);
+      setFilterOptions(response.data.filters);
     } catch (err) {
       console.error("Error fetching activity logs:", err);
     }
@@ -22,14 +30,61 @@ function ActivityLogTable() {
       date: filterDate,
       user: filterUser,
       action: filterAction,
+      target_table: filterTable,
     };
     fetchActivityLogs(filters);
-  }, [filterDate, filterUser, filterAction]);
+  }, [filterDate, filterUser, filterAction, filterTable]);
+
+
+  // Inside the component, add:
+const deleteLog = async (auditId) => {
+  if (!window.confirm("Are you sure you want to delete this log?")) return;
+
+  try {
+    await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/delete_log.php", {
+      audit_id: auditId,
+    });
+    fetchActivityLogs({ date: filterDate, user: filterUser, action: filterAction, target_table: filterTable });
+  } catch (err) {
+    console.error("Failed to delete log:", err);
+  }
+};
+
+const deleteFilteredLogs = async () => {
+  if (!window.confirm("Are you sure you want to delete all filtered logs?")) return;
+
+  try {
+    await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/delete_log.php", {
+      date: filterDate,
+      user: filterUser,
+      action: filterAction,
+      target_table: filterTable,
+    });
+    fetchActivityLogs({ date: filterDate, user: filterUser, action: filterAction, target_table: filterTable });
+  } catch (err) {
+    console.error("Failed to delete filtered logs:", err);
+  }
+};
+
 
   return (
     <div>
-      <AdminHeader />
+
+      <li>
+        <Link to="/admin_folder/activity_log">Activity Log</Link>
+      </li>
+
+      <li>
+        <Link to="/admin_folder/deleted_backup">Trash</Link>
+      </li>
+      
       <h2>Activity Logs</h2>
+
+      {/* Delete filtered logs button */}
+      <button onClick={deleteFilteredLogs} style={{ marginBottom: "10px", background: "red", color: "white" }}>
+        Delete Filtered Logs
+      </button>
+
 
       {/* Filters */}
       <div style={{ marginBottom: "20px" }}>
@@ -44,12 +99,6 @@ function ActivityLogTable() {
           value={filterUser}
           onChange={(e) => setFilterUser(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="Search by Action"
-          value={filterAction}
-          onChange={(e) => setFilterAction(e.target.value)}
-        />
       </div>
 
       {/* Table */}
@@ -57,20 +106,41 @@ function ActivityLogTable() {
         <thead>
           <tr>
             <th>User</th>
-            <th>Action</th>
+            <th>
+              <select value={filterAction} onChange={(e) => setFilterAction(e.target.value)}>
+                <option value="">Action</option>
+                {filterOptions.actions.map((val) => (
+                  <option key={val} value={val}>{val}</option>
+                ))}
+              </select>
+            </th>
             <th>Description</th>
-            <th>Target Table</th>
+            <th>
+              <select value={filterTable} onChange={(e) => setFilterTable(e.target.value)}>
+                <option value="">Target Table</option>
+                {filterOptions.target_tables.map((val) => (
+                  <option key={val} value={val}>{val}</option>
+                ))}
+              </select>
+            </th>
             <th>Date Recorded</th>
           </tr>
         </thead>
         <tbody>
           {activityLogs.map((log) => (
-            <tr key={log.id}>
+            <tr key={log.audit_id}>
               <td>{log.username}</td>
               <td>{log.action}</td>
               <td>{log.description}</td>
               <td>{log.target_table}</td>
               <td>{new Date(log.date_recorded).toLocaleString()}</td>
+
+              <td>
+              <button onClick={() => deleteLog(log.audit_id)} style={{ background: "red", color: "white" }}>
+              Clear
+              </button>
+              </td>
+
             </tr>
           ))}
         </tbody>

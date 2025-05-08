@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import AdminHeader from './AAA_admin_header';
 import AddPatientModal from './admin_modals/add_patient_modal';
 import EditPatientModal from "./admin_modals/edit_patient_modal";
@@ -77,6 +78,9 @@ function PatientTable() {
 
   return (
     <div>
+          <li>
+            <Link to="/admin_folder/activity_log" target='_blank'>Activity Log</Link>
+          </li>
       <AdminHeader />
       <h2>Patient List</h2>
 

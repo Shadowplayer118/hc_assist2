@@ -1,73 +1,144 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import AdminHeader from './AAA_admin_header';
+import AddPatientModal from './admin_modals/add_patient_modal';
+import EditPatientModal from "./admin_modals/edit_patient_modal";
 
 function DeletedBackupTable() {
-  const [deletedRecords, setDeletedRecords] = useState([]);
-  const [filterDate, setFilterDate] = useState("");
-  const [filterUser, setFilterUser] = useState("");
-  const [filterAction, setFilterAction] = useState("");
+  const [patients, setPatients] = useState([]);
+  const [name, setName] = useState("");
+  const [bloodType, setBloodType] = useState("");
+  const [age, setAge] = useState("");
+  const [purok, setPurok] = useState("");
+  const [household, setHousehold] = useState("");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState(null); // NEW: to hold data for Edit modal
 
-  const fetchDeletedRecords = async (filters = {}) => {
+  const [filterOptions, setFilterOptions] = useState({
+    blood_types: [],
+    ages: [],
+    puroks: [],
+    households: [],
+  });
+
+  const fetchPatients = async (filters = {}) => {
     try {
-      const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/load_deleted_backup.php", filters);
-      setDeletedRecords(response.data.records);
+      const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/load_backups.php", filters);
+      setPatients(response.data.patients);
+      setFilterOptions(response.data.filters);
     } catch (err) {
-      console.error("Error fetching deleted records:", err);
+      console.error("Error fetching patients:", err);
     }
   };
 
   useEffect(() => {
     const filters = {
-      date: filterDate,
-      user: filterUser,
-      action: filterAction,
+      name,
+      blood_type: bloodType,
+      age,
+      purok,
+      household,
     };
-    fetchDeletedRecords(filters);
-  }, [filterDate, filterUser, filterAction]);
+    fetchPatients(filters);
+  }, [name, bloodType, age, purok, household, patients]);
 
-  const handleRestore = async (recordId) => {
-    const confirmed = window.confirm("Are you sure you want to restore this record?");
+  const handleEdit = (patientId) => {
+    const patientToEdit = patients.find(p => p.patient_id === patientId);
+    if (patientToEdit) {
+      setSelectedPatient(patientToEdit); // Open modal with selected patient's data
+    }
+  };
+  
+  const handleCloseEditModal = () => {
+    setSelectedPatient(null);
+    fetchPatients(); // Refresh after edit
+  };
+
+  const handleDelete = async (recordId, targetTable) => {
+    const confirmed = window.confirm(`Are you sure you want to permanently delete this ${targetTable} record? This action cannot be undone.`);
     if (!confirmed) return;
-
+  
     try {
-      const user = JSON.parse(localStorage.getItem("user"));  // Parse the user object
-      const staffId = user ? user.staff_id : ""; // Get the logged-in staff id
-      await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/restore_deleted_record.php", {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const staffId = user ? user.staff_id : "";
+  
+      const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/permanent_delete.php", {
         record_id: recordId,
-        staff_id: staffId
+        staff_id: staffId,
+        target_table: targetTable
       });
-      alert("Record restored.");
-      fetchDeletedRecords(); // Refresh the list
+  
+      const data = response.data;
+      if (data.success) {
+        alert(`${targetTable} record permanently deleted.`);
+        // Refresh list
+      } else {
+        alert("Delete failed: " + data.message);
+      }
     } catch (err) {
-      console.error("Restore failed:", err);
+      console.error("Permanent delete error:", err);
+      alert("Failed to delete record.");
+    }
+  };
+  
+
+  const handleRestore = async (recordId, targetTable) => {
+    const confirmed = window.confirm(`Are you sure you want to restore this ${targetTable} record?`);
+    if (!confirmed) return;
+  
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const staffId = user ? user.staff_id : "";
+  
+      const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/restore_deleted.php", {
+        record_id: recordId,
+        staff_id: staffId,
+        target_table: targetTable
+      });
+  
+      const data = response.data;
+      if (data.success) {
+        alert(`${targetTable} record restored successfully.`);
+        // Refresh logic
+      } else {
+        alert("Restore failed: " + data.message);
+      }
+    } catch (err) {
+      console.error("Restore error:", err);
       alert("Failed to restore record.");
     }
   };
+  
+  
 
   return (
     <div>
+          <li>
+            <Link to="/admin_folder/activity_log" target='_blank'>Activity Log</Link>
+          </li>
       <AdminHeader />
-      <h2>Deleted Records Backup</h2>
+      <h2>Patient List</h2>
+
+      <button onClick={() => setIsAddModalOpen(true)}>Add New Patient</button>
+      {isAddModalOpen && (
+        <AddPatientModal onClose={() => setIsAddModalOpen(false)} />
+      )}
+
+      {selectedPatient && (
+        <EditPatientModal
+          patientData={selectedPatient}
+          onClose={handleCloseEditModal}
+        />
+      )}
 
       {/* Filters */}
       <div style={{ marginBottom: "20px" }}>
         <input
-          type="date"
-          value={filterDate}
-          onChange={(e) => setFilterDate(e.target.value)}
-        />
-        <input
           type="text"
-          placeholder="Search by User"
-          value={filterUser}
-          onChange={(e) => setFilterUser(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Search by Action"
-          value={filterAction}
-          onChange={(e) => setFilterAction(e.target.value)}
+          placeholder="Search by Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
       </div>
 
@@ -75,24 +146,53 @@ function DeletedBackupTable() {
       <table border="1" cellPadding="8">
         <thead>
           <tr>
-            <th>User</th>
-            <th>Action</th>
-            <th>Description</th>
-            <th>Target Table</th>
-            <th>Date Deleted</th>
+            <th>Full Name</th>
+            <th>
+              <select value={purok} onChange={(e) => setPurok(e.target.value)}>
+                <option value="">Purok</option>
+                {filterOptions.puroks.map((val) => (
+                  <option key={val} value={val}>{val}</option>
+                ))}
+              </select>
+            </th>
+            <th>
+              <select value={household} onChange={(e) => setHousehold(e.target.value)}>
+                <option value="">Household</option>
+                {filterOptions.households.map((val) => (
+                  <option key={val} value={val}>{val}</option>
+                ))}
+              </select>
+            </th>
+            <th>
+              <select value={age} onChange={(e) => setAge(e.target.value)}>
+                <option value="">Age</option>
+                {filterOptions.ages.map((val) => (
+                  <option key={val} value={val}>{val}</option>
+                ))}
+              </select>
+            </th>
+            <th>
+              <select value={bloodType} onChange={(e) => setBloodType(e.target.value)}>
+                <option value="">Blood Type</option>
+                {filterOptions.blood_types.map((val) => (
+                  <option key={val} value={val}>{val}</option>
+                ))}
+              </select>
+            </th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {deletedRecords.map((record) => (
-            <tr key={record.id}>
-              <td>{record.username}</td>
-              <td>{record.action}</td>
-              <td>{record.description}</td>
-              <td>{record.target_table}</td>
-              <td>{new Date(record.date_deleted).toLocaleString()}</td>
+          {patients.map((patient) => (
+            <tr key={patient.patient_id}>
+              <td>{patient.first_name + ' ' + patient.last_name}</td>
+              <td>{patient.purok}</td>
+              <td>{patient.household}</td>
+              <td>{patient.age}</td>
+              <td>{patient.blood_type}</td>
               <td>
-                <button onClick={() => handleRestore(record.id)}>Restore</button>
+              <button onClick={() => handleRestore(patient.patient_id, "patient")}>Restore</button>
+              <button onClick={() => handleDelete(patient.patient_id, "patient")}>Permanently Delete</button>
               </td>
             </tr>
           ))}
