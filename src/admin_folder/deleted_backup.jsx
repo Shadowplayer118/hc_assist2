@@ -22,16 +22,6 @@ function DeletedBackupTable() {
     households: [],
   });
 
-  const fetchPatients = async (filters = {}) => {
-    try {
-      const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/load_backups.php", filters);
-      setPatients(response.data.patients);
-      setFilterOptions(response.data.filters);
-    } catch (err) {
-      console.error("Error fetching patients:", err);
-    }
-  };
-
   useEffect(() => {
     const filters = {
       name,
@@ -42,6 +32,18 @@ function DeletedBackupTable() {
     };
     fetchPatients(filters);
   }, [name, bloodType, age, purok, household, patients]);
+
+
+
+  const fetchPatients = async (filters = {}) => {
+    try {
+      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/load_backup_patient.php", filters);
+      setPatients(response.data.patients);
+      setFilterOptions(response.data.filters);
+    } catch (err) {
+      console.error("Error fetching patients:", err);
+    }
+  };
 
   const handleEdit = (patientId) => {
     const patientToEdit = patients.find(p => p.patient_id === patientId);
@@ -63,7 +65,7 @@ function DeletedBackupTable() {
       const user = JSON.parse(localStorage.getItem("user"));
       const staffId = user ? user.staff_id : "";
   
-      const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/permanent_delete.php", {
+      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/permanent_delete.php", {
         record_id: recordId,
         staff_id: staffId,
         target_table: targetTable
@@ -91,7 +93,7 @@ function DeletedBackupTable() {
       const user = JSON.parse(localStorage.getItem("user"));
       const staffId = user ? user.staff_id : "";
   
-      const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/restore_deleted.php", {
+      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/restore_deleted.php", {
         record_id: recordId,
         staff_id: staffId,
         target_table: targetTable
@@ -111,7 +113,6 @@ function DeletedBackupTable() {
   };
   
   
-
   return (
     <div>
           <li>

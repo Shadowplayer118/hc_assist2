@@ -15,15 +15,6 @@ function ActivityLogTable() {
     target_tables: [],
   });
 
-  const fetchActivityLogs = async (filters = {}) => {
-    try {
-      const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/activity_log.php", filters);
-      setActivityLogs(response.data.logs);
-      setFilterOptions(response.data.filters);
-    } catch (err) {
-      console.error("Error fetching activity logs:", err);
-    }
-  };
 
   useEffect(() => {
     const filters = {
@@ -36,12 +27,23 @@ function ActivityLogTable() {
   }, [filterDate, filterUser, filterAction, filterTable]);
 
 
+  const fetchActivityLogs = async (filters = {}) => {
+    try {
+      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/activity_log.php", filters);
+      setActivityLogs(response.data.logs);
+      setFilterOptions(response.data.filters);
+    } catch (err) {
+      console.error("Error fetching activity logs:", err);
+    }
+  };
+
+
   // Inside the component, add:
 const deleteLog = async (auditId) => {
   if (!window.confirm("Are you sure you want to delete this log?")) return;
 
   try {
-    await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/delete_log.php", {
+    await axios.post("http://localhost/hc_assist2/src/zbackend_folder/delete_log.php", {
       audit_id: auditId,
     });
     fetchActivityLogs({ date: filterDate, user: filterUser, action: filterAction, target_table: filterTable });
@@ -54,7 +56,7 @@ const deleteFilteredLogs = async () => {
   if (!window.confirm("Are you sure you want to delete all filtered logs?")) return;
 
   try {
-    await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/delete_log.php", {
+    await axios.post("http://localhost/hc_assist2/src/zbackend_folder/delete_log.php", {
       date: filterDate,
       user: filterUser,
       action: filterAction,

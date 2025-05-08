@@ -93,7 +93,7 @@ function EditPatientModal({ onClose, patientData = null }) {
   
       // Send to update endpoint only
       await axios.post(
-        "http://localhost/hc_assist2/src/admin_folder/admin_php/edit_patients.php",
+        "http://localhost/hc_assist2/src/zbackend_folder/edit_patients.php",
         formDataToSubmit,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -156,8 +156,8 @@ function EditPatientModal({ onClose, patientData = null }) {
     formData.image_preview instanceof File
       ? URL.createObjectURL(formData.image_preview)
       : formData.image_preview && !formData.image_preview.startsWith("blob:")
-        ? `http://localhost/hc_assist2/src/admin_folder/admin_php/uploads/Patient_Images/${formData.image_preview}`
-        : formData.image_preview || `http://localhost/hc_assist2/src/admin_folder/admin_php/uploads/Patient_Images/PatientDefault.jpg`
+        ? `http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${formData.image_preview}`
+        : formData.image_preview || `http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg`
   }
   alt="Image Preview"
   style={{ width: "100%", maxHeight: "200px", objectFit: "cover" }}

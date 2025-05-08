@@ -22,16 +22,6 @@ function PatientTable() {
     households: [],
   });
 
-  const fetchPatients = async (filters = {}) => {
-    try {
-      const response = await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/load_patients.php", filters);
-      setPatients(response.data.patients);
-      setFilterOptions(response.data.filters);
-    } catch (err) {
-      console.error("Error fetching patients:", err);
-    }
-  };
-
   useEffect(() => {
     const filters = {
       name,
@@ -42,6 +32,17 @@ function PatientTable() {
     };
     fetchPatients(filters);
   }, [name, bloodType, age, purok, household, patients]);
+  
+
+  const fetchPatients = async (filters = {}) => {
+    try {
+      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/load_patients.php", filters);
+      setPatients(response.data.patients);
+      setFilterOptions(response.data.filters);
+    } catch (err) {
+      console.error("Error fetching patients:", err);
+    }
+  };
 
   const handleEdit = (patientId) => {
     const patientToEdit = patients.find(p => p.patient_id === patientId);
@@ -63,8 +64,8 @@ function PatientTable() {
 
     try {
       const user = JSON.parse(localStorage.getItem("user"));  // Parse the user object
-      const staffId = user ? user.staff_id : "";; // wherever you're storing the logged-in staff
-      await axios.post("http://localhost/hc_assist2/src/admin_folder/admin_php/delete_patients.php", {
+      const staffId = user ? user.staff_id : "";// wherever you're storing the logged-in staff
+      await axios.post("http://localhost/hc_assist2/src/zbackend_folder/delete_patients.php", {
         patient_id: patientId,
         staff_id: staffId
       });
@@ -78,9 +79,7 @@ function PatientTable() {
 
   return (
     <div>
-          <li>
-            <Link to="/admin_folder/activity_log" target='_blank'>Activity Log</Link>
-          </li>
+
       <AdminHeader />
       <h2>Patient List</h2>
 
