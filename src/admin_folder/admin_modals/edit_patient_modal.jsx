@@ -162,7 +162,6 @@ function EditPatientModal({ onClose, patientData = null }) {
   alt="Image Preview"
   style={{ width: "100%", maxHeight: "200px", objectFit: "cover" }}
 />
-
           </div>
           )}
           </div>

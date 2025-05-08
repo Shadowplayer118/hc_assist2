@@ -10,6 +10,7 @@ import StaffTable from "./admin_folder/staff_table";
 import PatientTable from "./admin_folder/patient_table";
 import ActivityLogTable from "./admin_folder/activity_log";
 import DeletedBackupTable from "./admin_folder/deleted_backup";
+import MedTable from "./admin_folder/med_table";
 
 
 import PatientTableStaff from "./staff_folder/patient_table";
@@ -43,6 +44,7 @@ function AppRoutes() {
     { path: "/admin_folder/activity_log", element: <ActivityLogTable /> },
     { path: "/admin_folder/staff_table", element: <StaffTable /> },
     { path: "/admin_folder/patient_table", element: <PatientTable /> },
+    { path: "/admin_folder/med_table", element: <MedTable /> },
 
     // Staff Routes
     { path: "/staff_folder/patient_table", element: <PatientTableStaff /> },

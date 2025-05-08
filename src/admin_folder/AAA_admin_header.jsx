@@ -20,6 +20,10 @@ function AdminHeader() {
               <li>
                 <Link to="/admin_folder/patient_table">Patient</Link>
               </li>
+
+              <li>
+                <Link to="/admin_folder/med_table">Medicine</Link>
+              </li>
              
               <li>
                 <button
