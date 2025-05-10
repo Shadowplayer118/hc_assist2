@@ -160,6 +160,23 @@ function StockMedModal({ medData, onClose, onSuccess }) {
           >
             Submit
           </button>
+
+          <div style={{ marginBottom: 15 }}>
+            <button
+              onClick={() => window.open(`/admin_folder/expired_stock_table?meds_id=${medData.meds_id}`, '_blank')}
+              style={{
+                padding: "6px 12px",
+                backgroundColor: "#d9534f",
+                color: "#fff",
+                border: "none",
+                borderRadius: "6px",
+                cursor: "pointer",
+              }}
+            >
+              View Expired Medicines
+            </button>
+          </div>
+          
         </div>
       </div>
     </div>

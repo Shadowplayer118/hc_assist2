@@ -11,7 +11,13 @@ import PatientTable from "./admin_folder/patient_table";
 import ActivityLogTable from "./admin_folder/activity_log";
 import DeletedBackupTable from "./admin_folder/deleted_backup";
 import MedTable from "./admin_folder/med_table";
-
+import ExpiredStockViewer from "./admin_folder/expired_stock_table";
+import MedicalRecordsTable from "./admin_folder/medical_record_table";
+import DiseaseTable from "./admin_folder/disease_table";
+import ImmunizationTable from "./admin_folder/immuni_table";
+import ReferralTable from "./admin_folder/referral_table";
+import ScheduleTable from "./admin_folder/schedule_table";
+import PregnantTable from "./admin_folder/pregnant_table";
 
 import PatientTableStaff from "./staff_folder/patient_table";
 
@@ -45,6 +51,20 @@ function AppRoutes() {
     { path: "/admin_folder/staff_table", element: <StaffTable /> },
     { path: "/admin_folder/patient_table", element: <PatientTable /> },
     { path: "/admin_folder/med_table", element: <MedTable /> },
+    { path: "/admin_folder/expired_stock_table", element: <ExpiredStockViewer /> },
+    { path: "/admin_folder/medical_record_table", element: <MedicalRecordsTable /> },
+    { path: "/admin_folder/medical_record_table/:patientId", element: <MedicalRecordsTable /> },
+    { path: "/admin_folder/disease_table", element: <DiseaseTable /> },
+    { path: "/admin_folder/disease_table/:patientId", element: <DiseaseTable /> },
+    { path: "/admin_folder/immuni_table", element: <ImmunizationTable /> },
+    { path: "/admin_folder/immuni_table/:patientId", element: <ImmunizationTable /> },
+    { path: "/admin_folder/referral_table", element: <ReferralTable /> },
+    { path: "/admin_folder/referral_table/:patientId", element: <ReferralTable /> },
+    { path: "/admin_folder/schedule_table", element: <ScheduleTable /> },
+    { path: "/admin_folder/schedule_table/:patientId", element: <ScheduleTable /> },
+    { path: "/admin_folder/pregnant_table", element: <PregnantTable /> },
+    { path: "/admin_folder/pregnant_table/:patientId", element: <PregnantTable /> },
+
 
     // Staff Routes
     { path: "/staff_folder/patient_table", element: <PatientTableStaff /> },

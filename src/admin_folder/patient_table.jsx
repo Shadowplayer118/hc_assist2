@@ -156,6 +156,13 @@ function PatientTable() {
               <td>
                 <button onClick={() => handleEdit(patient.patient_id)}>Edit</button>
                 <button onClick={() => handleDelete(patient.patient_id)} style={{ marginLeft: "8px" }}>Delete</button>
+                <a
+  href={`/admin_folder/medical_record_table/${patient.patient_id}`}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <button style={{ marginLeft: "8px" }}>View Medical Records</button>
+</a>
               </td>
             </tr>
           ))}
