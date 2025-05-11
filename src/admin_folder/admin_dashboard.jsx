@@ -3,6 +3,7 @@ import AdminHeader from './AAA_admin_header';
 import { Link } from 'react-router-dom';
 import GeneralReport from '../components/general_report';
 import ComparativeData from '../components/comparative_data';
+import Monitoring from '../components/monitoring';
 
 
 const Admin = () => {
@@ -22,6 +23,7 @@ const Admin = () => {
       {/* ✅ Embed the GeneralReport component */}
       <GeneralReport />
       <ComparativeData />
+      <Monitoring />
     </div>
   );
 };
