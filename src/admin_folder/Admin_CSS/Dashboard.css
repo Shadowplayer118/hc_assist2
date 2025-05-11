@@ -1,0 +1,12 @@
+.horizontal-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  gap: 1.5rem; /* Adds space between the components */
+  justify-content: space-between; /* Distribute components evenly */
+}
+
+.horizontal-container > * {
+  flex: 1 1 calc(50% - 1.5rem); /* Adjust the size of each component */
+  min-width: 300px; /* Ensures components do not shrink below a certain width */
+  max-width: 330px; /* Keeps the max-width the same as general */
+}

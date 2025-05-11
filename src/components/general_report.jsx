@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import './Component_CSS/GeneralReport.css'; // Your external CSS file
 
 const months = [
   { label: "January", value: "01" },
@@ -38,92 +39,89 @@ const GeneralReport = () => {
     }
   };
 
-  // Fetch the new dataset
-const fetchNewReport = async (month, year) => {
-  try {
-    const { data } = await axios.get(
-      `http://localhost/hc_assist2/src/zbackend_folder/load_monthly_report.php?month=${month}&year=${year}`
-    );
-    setNewReport(data);
-  } catch (error) {
-    console.error("Error fetching new report:", error);
-  }
-};
+  const fetchNewReport = async (month, year) => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost/hc_assist2/src/zbackend_folder/load_monthly_report.php?month=${month}&year=${year}`
+      );
+      setNewReport(data);
+    } catch (error) {
+      console.error("Error fetching new report:", error);
+    }
+  };
 
+  const generateReport = () => {
+    const printWindow = window.open("", "_blank");
+    printWindow.document.write("<html><head><title>Report</title></head><body>");
 
-const generateReport = () => {
-  const printWindow = window.open("", "_blank");
-  printWindow.document.write("<html><head><title>Report</title></head><body>");
-  
-  // Title and month
-  printWindow.document.write("<h1 style='text-align:center;'>Monthly Report</h1>");
-  printWindow.document.write(`<h3 style='text-align:center;'>For the month of ${months.find(m => m.value === selectedMonth).label} ${selectedYear}</h3>`);
-  printWindow.document.write("<hr>");
+    // Title and month
+    printWindow.document.write("<h1 style='text-align:center;'>Monthly Report</h1>");
+    printWindow.document.write(`<h3 style='text-align:center;'>For the month of ${months.find(m => m.value === selectedMonth).label} ${selectedYear}</h3>`);
+    printWindow.document.write("<hr>");
 
-  printWindow.document.write("<h2>General Report</h2>");
-  printWindow.document.write("<table border='1' style='width:100%; border-collapse: collapse;'>");
-  printWindow.document.write("<thead><tr><th>Category</th><th>Count</th><th>Percentage</th></tr></thead>");
-  printWindow.document.write("<tbody>");
-
-  if (report) {
-    ["referrals", "pregnant", "disease", "immunization", "Children", "Total"].forEach((key) => {
-      printWindow.document.write(`<tr><td>${key}</td><td>${report[key].count}</td><td>${report[key].percentage}%</td></tr>`);
-    });
-  }
-
-  printWindow.document.write("</tbody></table>");
-
-  if (newReport) {
-    printWindow.document.write("<h2>Additional Report</h2>");
+    printWindow.document.write("<h2>General Report</h2>");
     printWindow.document.write("<table border='1' style='width:100%; border-collapse: collapse;'>");
-    printWindow.document.write("<thead><tr><th>Category</th><th>Details</th></tr></thead>");
+    printWindow.document.write("<thead><tr><th>Category</th><th>Count</th><th>Percentage</th></tr></thead>");
     printWindow.document.write("<tbody>");
 
-    // General section
-    printWindow.document.write("<tr><td>General</td><td>Total: " + newReport.general.total + ", Male: " + newReport.general.male + ", Female: " + newReport.general.female + "</td></tr>");
-
-    // Children section
-    printWindow.document.write("<tr><td>Children</td><td>Total: " + newReport.children.total + ", Male: " + newReport.children.male + ", Female: " + newReport.children.female + "</td></tr>");
-
-    // Senior section
-    printWindow.document.write("<tr><td>Senior</td><td>Total: " + newReport.senior.total + ", Male: " + newReport.senior.male + ", Female: " + newReport.senior.female + "</td></tr>");
-
-    // Pregnant section
-    printWindow.document.write("<tr><td>Pregnant</td><td>Total: " + newReport.pregnant.total + ", Miscarried: " + newReport.pregnant.miscarried + ", Delivered: " + newReport.pregnant.delivered + "</td></tr>");
-
-    // Disease section
-    newReport.disease.forEach((disease) => {
-      printWindow.document.write(`<tr><td>Disease: ${disease.disease_name}</td><td>Cured: ${disease.cured}, Ongoing: ${disease.ongoing}</td></tr>`);
-    });
-
-    // Immunization section
-    newReport.immunization.forEach((immunization) => {
-      printWindow.document.write(`<tr><td>Immunization: ${immunization.immu_name}</td><td>Total: ${immunization.total}</td></tr>`);
-    });
+    if (report) {
+      ["referrals", "pregnant", "disease", "immunization", "Children", "Total"].forEach((key) => {
+        printWindow.document.write(`<tr><td>${key}</td><td>${report[key].count}</td><td>${report[key].percentage}%</td></tr>`);
+      });
+    }
 
     printWindow.document.write("</tbody></table>");
-  }
 
-  printWindow.document.write("</body></html>");
-  printWindow.document.close();
-  printWindow.print();
-};
+    if (newReport) {
+      printWindow.document.write("<h2>Additional Report</h2>");
+      printWindow.document.write("<table border='1' style='width:100%; border-collapse: collapse;'>");
+      printWindow.document.write("<thead><tr><th>Category</th><th>Details</th></tr></thead>");
+      printWindow.document.write("<tbody>");
 
+      // General section
+      printWindow.document.write("<tr><td>General</td><td>Total: " + newReport.general.total + ", Male: " + newReport.general.male + ", Female: " + newReport.general.female + "</td></tr>");
+
+      // Children section
+      printWindow.document.write("<tr><td>Children</td><td>Total: " + newReport.children.total + ", Male: " + newReport.children.male + ", Female: " + newReport.children.female + "</td></tr>");
+
+      // Senior section
+      printWindow.document.write("<tr><td>Senior</td><td>Total: " + newReport.senior.total + ", Male: " + newReport.senior.male + ", Female: " + newReport.senior.female + "</td></tr>");
+
+      // Pregnant section
+      printWindow.document.write("<tr><td>Pregnant</td><td>Total: " + newReport.pregnant.total + ", Miscarried: " + newReport.pregnant.miscarried + ", Delivered: " + newReport.pregnant.delivered + "</td></tr>");
+
+      // Disease section
+      newReport.disease.forEach((disease) => {
+        printWindow.document.write(`<tr><td>Disease: ${disease.disease_name}</td><td>Cured: ${disease.cured}, Ongoing: ${disease.ongoing}</td></tr>`);
+      });
+
+      // Immunization section
+      newReport.immunization.forEach((immunization) => {
+        printWindow.document.write(`<tr><td>Immunization: ${immunization.immu_name}</td><td>Total: ${immunization.total}</td></tr>`);
+      });
+
+      printWindow.document.write("</tbody></table>");
+    }
+
+    printWindow.document.write("</body></html>");
+    printWindow.document.close();
+    printWindow.print();
+  };
 
   useEffect(() => {
     fetchReport(selectedMonth, selectedYear);
-    fetchNewReport(); // Fetch new report on mount
+    fetchNewReport(selectedMonth, selectedYear); // Fetch new report on mount
   }, [selectedMonth, selectedYear]);
 
   return (
-    <div className="p-6 bg-white shadow rounded-xl max-w-xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">General Report</h2>
+    <div className="general-report-container">
+      <h2 className="report-title">General Report</h2>
 
-      <div className="flex gap-4 mb-4">
-        <div>
-          <label className="font-medium mr-2">Select Month:</label>
+      <div className="filter-container">
+        <div className="filter-item">
+          <label className="filter-label">Select Month:</label>
           <select
-            className="border px-3 py-1 rounded"
+            className="filter-select"
             value={selectedMonth}
             onChange={(e) => setSelectedMonth(e.target.value)}
           >
@@ -135,10 +133,10 @@ const generateReport = () => {
           </select>
         </div>
 
-        <div>
-          <label className="font-medium mr-2">Select Year:</label>
+        <div className="filter-item">
+          <label className="filter-label">Select Year:</label>
           <select
-            className="border px-3 py-1 rounded"
+            className="filter-select"
             value={selectedYear}
             onChange={(e) => setSelectedYear(e.target.value)}
           >
@@ -152,22 +150,22 @@ const generateReport = () => {
       </div>
 
       {report ? (
-        <>
-          <table className="w-full border mt-4">
+        <div className="report-table-container">
+          <table className="report-table">
             <thead>
-              <tr className="bg-gray-100 text-left">
-                <th className="p-2 border">Category</th>
-                <th className="p-2 border">Count</th>
-                <th className="p-2 border">Percentage</th>
+              <tr>
+                <th>Category</th>
+                <th>Count</th>
+                <th>Percentage</th>
               </tr>
             </thead>
             <tbody>
               {["referrals", "pregnant", "disease", "immunization", "Children", "Total"].map(
                 (key) => (
                   <tr key={key}>
-                    <td className="p-2 border capitalize">{key}</td>
-                    <td className="p-2 border">{report[key].count}</td>
-                    <td className="p-2 border">{report[key].percentage}%</td>
+                    <td className="capitalize">{key}</td>
+                    <td>{report[key].count}</td>
+                    <td>{report[key].percentage}%</td>
                   </tr>
                 )
               )}
@@ -175,28 +173,15 @@ const generateReport = () => {
           </table>
           <button
             onClick={generateReport}
-            className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+            className="generate-report-btn"
           >
             Generate Report
           </button>
-        </>
+        </div>
       ) : (
         <p>Loading...</p>
       )}
 
-      {/* Optionally display new report data */}
-      {newReport && (
-        <div className="mt-6">
-          <h3 className="text-xl font-bold">Additional Report Data</h3>
-          <div>
-            {/* Display general, children, senior, pregnant, etc., data as needed */}
-            <p>General Total: {newReport.general.total}</p>
-            <p>Children Total: {newReport.children.total}</p>
-            <p>Senior Total: {newReport.senior.total}</p>
-            {/* Other data sections can be displayed here */}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

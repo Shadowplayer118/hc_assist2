@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale } from 'chart.js';
 import axios from 'axios';
+import './Component_CSS/ComparativeData.css';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
 
@@ -51,7 +52,6 @@ const ComparativeData = () => {
     });
   };
 
-  // Fetch on initial load and when category changes
   useEffect(() => {
     fetchPatientData(selectedCategory);
   }, []);
@@ -61,16 +61,12 @@ const ComparativeData = () => {
   }, [patientData]);
 
   return (
-    <div className="p-6 bg-white shadow rounded-xl max-w-xl mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Patient Data Comparison</h2>
+    <div className="comparative-data-container">
+      <h2 className="comparative-title">Patient Data Comparison</h2>
 
-      <div className="mb-4">
-        <label className="font-medium mr-2">Select Category:</label>
-        <select
-          className="border px-3 py-1 rounded"
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-        >
+      <div className="comparative-controls">
+        <label>Select Category:</label>
+        <select className="comparative-dropdown" value={selectedCategory} onChange={handleCategoryChange}>
           <option value="purok">Purok</option>
           <option value="pregnant">Pregnant</option>
           <option value="disease">Disease</option>
@@ -80,8 +76,8 @@ const ComparativeData = () => {
 
       <div>
         <Pie data={chartData} />
-        <div className="text-center mt-4">
-          <h4 className="font-semibold">Legend:</h4>
+        <div className="comparative-legend">
+          <h4>Legend:</h4>
           <ul>
             {chartData.labels.map((label, index) => (
               <li key={index} style={{ color: chartData.datasets[0].backgroundColor[index] }}>
