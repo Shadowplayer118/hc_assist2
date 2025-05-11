@@ -28,6 +28,10 @@ function AdminHeader() {
               <li>
                 <Link to="/admin_folder/workflow_board">Workflow</Link>
               </li>
+
+                            <li>
+                <Link to="/admin_folder/calendar">Calendar</Link>
+              </li>
              
               <li>
                 <button

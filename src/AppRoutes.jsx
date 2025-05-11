@@ -20,6 +20,7 @@ import ScheduleTable from "./admin_folder/schedule_table";
 import PregnantTable from "./admin_folder/pregnant_table";
 import WorkflowBoard from "./admin_folder/workflow_board";
 import WorkflowAssignBoard from "./admin_folder/workflow_assigned_board";
+import ScheduleCalendar from "./admin_folder/calendar";
 
 import PatientTableStaff from "./staff_folder/patient_table";
 import WorkflowBoardStaff from "./staff_folder/workflow_board";
@@ -70,6 +71,7 @@ function AppRoutes() {
     { path: "/admin_folder/pregnant_table/:patientId", element: <PregnantTable /> },
     { path: "/admin_folder/workflow_board", element: <WorkflowBoard /> },
     { path: "/admin_folder/workflow_assigned_board", element: <WorkflowAssignBoard /> },
+    { path: "/admin_folder/calendar", element: <ScheduleCalendar /> },
 
     // Staff Routes
     { path: "/staff_folder/patient_table", element: <PatientTableStaff /> },
