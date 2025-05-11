@@ -22,6 +22,8 @@ import WorkflowBoard from "./admin_folder/workflow_board";
 import WorkflowAssignBoard from "./admin_folder/workflow_assigned_board";
 
 import PatientTableStaff from "./staff_folder/patient_table";
+import WorkflowBoardStaff from "./staff_folder/workflow_board";
+import WorkflowAssignBoardStaff from "./staff_folder/workflow_assigned_board";
 
 import PatientTableMidwife from "./midwife_folder/patient_table";
 
@@ -71,6 +73,8 @@ function AppRoutes() {
 
     // Staff Routes
     { path: "/staff_folder/patient_table", element: <PatientTableStaff /> },
+    { path: "/staff_folder/workflow_board", element: <WorkflowBoardStaff /> },
+    { path: "/staff_folder/workflow_assigned_board", element: <WorkflowAssignBoardStaff /> },
 
 
     // Midwife Routes

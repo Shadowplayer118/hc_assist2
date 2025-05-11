@@ -58,9 +58,17 @@ while ($assign = $assignResult->fetch_assoc()) {
     }
 }
 
-// ✅ 3. Fetch data to return
+// ✅ 3. Fetch data to return for a specific staff_id
 $data = json_decode(file_get_contents("php://input"), true);
-$staff_id = isset($data['staff_id']) ? $conn->real_escape_string($data['staff_id']) : '';
+$staff_id = isset($data['staff_id']) ? $data['staff_id'] : '';
+
+if (empty($staff_id)) {
+    echo json_encode([
+        "success" => false,
+        "message" => "Missing staff_id in request."
+    ]);
+    exit;
+}
 
 $query = "SELECT wa.assign_id, wa.workflow_id, wa.staff_id, wa.status, wa.deadline, 
                  w.title as workflow_title, w.description as workflow_description, 
@@ -68,9 +76,10 @@ $query = "SELECT wa.assign_id, wa.workflow_id, wa.staff_id, wa.status, wa.deadli
           FROM workflow_assign wa
           JOIN workflows w ON wa.workflow_id = w.workflow_id
           INNER JOIN staff s ON wa.staff_id = s.staff_id
-          WHERE wa.is_deleted != 'true'";
+          WHERE wa.is_deleted != 'true' AND wa.staff_id = ?";
 
 $stmt = $conn->prepare($query);
+$stmt->bind_param("i", $staff_id); // "s" if staff_id is a string, "i" if it's an integer
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -101,4 +110,6 @@ echo json_encode([
     "success" => true,
     "assignedWorkflows" => $assignedWorkflows
 ]);
+
+$conn->close();
 ?>

@@ -123,18 +123,7 @@ function ViewAssignedWorkflowModal({ workflow, onClose }) {
         </div>
 
         <div style={{ marginBottom: "10px" }}>
-          <label>Assigned Staff</label>
-          <select
-            value={selectedStaff}
-            onChange={(e) => setSelectedStaff(e.target.value)}
-            style={{ width: "100%" }}
-          >
-            {staffList.map((staff) => (
-              <option key={staff.staff_id} value={staff.staff_id}>
-                {staff.full_name} - {staff.position}
-              </option>
-            ))}
-          </select>
+
         </div>
 
         <div style={{ marginBottom: "10px" }}>
@@ -149,6 +138,7 @@ function ViewAssignedWorkflowModal({ workflow, onClose }) {
             value={updatedDeadline}
             onChange={(e) => setUpdatedDeadline(e.target.value)}
             style={{ width: "100%" }}
+            readOnly
           />
         </div>
 
@@ -173,9 +163,7 @@ function ViewAssignedWorkflowModal({ workflow, onClose }) {
 
         <div style={{ marginTop: 10, display: "flex", justifyContent: "space-between" }}>
           <button onClick={onClose}>Close</button>
-          <button onClick={handleSaveChanges} style={{ backgroundColor: "#4CAF50", color: "white" }}>
-            Save Changes
-          </button>
+
         </div>
       </div>
     </div>

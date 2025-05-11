@@ -18,6 +18,10 @@ function StaffHeader() {
               <li>
                 <Link to="/staff_folder/patient_table">Patient</Link>
               </li>
+
+                            <li>
+                <Link to="/staff_folder/workflow_board">Workflow</Link>
+              </li>
              
               <li>
                 <button

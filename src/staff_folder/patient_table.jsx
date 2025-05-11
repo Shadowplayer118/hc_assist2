@@ -64,7 +64,7 @@ function PatientTableStaff() {
 
     try {
       const user = JSON.parse(localStorage.getItem("user"));  // Parse the user object
-      const staffId = user ? user.staff_id : "";; // wherever you're storing the logged-in staff
+      const staffId = user ? user.staff_id : ""; // wherever you're storing the logged-in staff
       await axios.post("http://localhost/hc_assist2/src/zbackend_folder/delete_patients.php", {
         patient_id: patientId,
         staff_id: staffId

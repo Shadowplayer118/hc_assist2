@@ -23,6 +23,16 @@ if (empty($workflow_id) || empty($staff_id) || empty($title)) {
     exit;
 }
 
+// Check if workflow is assigned to any staff
+$checkAssignSql = "SELECT COUNT(*) as total FROM workflow_assign WHERE workflow_id = '$workflow_id' AND is_deleted != 'true'";
+$checkResult = $conn->query($checkAssignSql);
+$assignData = $checkResult->fetch_assoc();
+
+if ($assignData['total'] > 0) {
+    echo json_encode(["error" => "Cannot delete workflow. It is still assigned to one or more staff members."]);
+    exit;
+}
+
 // Soft delete workflow
 $deleteSql = "UPDATE workflows SET is_deleted = 'true', last_updated = NOW() WHERE workflow_id = '$workflow_id'";
 
