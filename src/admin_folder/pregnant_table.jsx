@@ -16,7 +16,7 @@ function PregnantTable() {
 
   useEffect(() => {
     fetchPregnantData();
-  }, [patientId, startDate, endDate. pregnant]);
+  }, [patientId, startDate, endDate. pregnantRecords]);
 
   const fetchPregnantData = async () => {
     try {
@@ -65,9 +65,10 @@ function PregnantTable() {
   };
 
   // Check if there's an active pregnancy (not 'born')
-  const hasActivePregnancy = pregnantRecords.some(
-    (record) => record.status.toLowerCase() !== "born"
-  );
+const canAddPregnancy = pregnantRecords.every(
+  (record) =>
+    ["born", "miscarriage"].includes(record.status.toLowerCase())
+);
 
   return (
     <div style={{ padding: "20px" }}>
@@ -93,15 +94,15 @@ function PregnantTable() {
       )}
 
       {/* Add Modal Button or Notice */}
-      {!hasActivePregnancy ? (
-        <button onClick={() => setShowModal(true)} style={{ marginBottom: "15px" }}>
-          Add New Record
-        </button>
-      ) : (
-        <p style={{ color: "red", marginBottom: "15px" }}>
-          Cannot add a new pregnancy record while one is still active.
-        </p>
-      )}
+{canAddPregnancy ? (
+  <button onClick={() => setShowModal(true)} style={{ marginBottom: "15px" }}>
+    Add New Record
+  </button>
+) : (
+  <p style={{ color: "red", marginBottom: "15px" }}>
+    Cannot add a new pregnancy record unless all previous ones are marked as "Born" or "Miscarriage".
+  </p>
+)}
 
             {/* Edit Modal */}
             {selectedRecord && (

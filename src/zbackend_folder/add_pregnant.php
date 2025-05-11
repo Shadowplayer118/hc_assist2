@@ -36,30 +36,33 @@ $sql = "INSERT INTO pregnant (
 )";
 
 if ($conn->query($sql)) {
+    // Get the last inserted pregnant_id
+    $pregnant_id = $conn->insert_id;
+
     // Insert into schedules table for due date, 2nd trimester, and 3rd trimester
     $scheduleInserts = [];
 
     if (!empty($data['due_date'])) {
         $scheduleInserts[] = "(
-            '{$data['patient_id']}', 'pregnant', 'pending', '{$data['due_date']}', 'Pregnancy Due Date', NOW()
+            '{$data['patient_id']}', 'pregnant', 'pending', '{$data['due_date']}', 'Pregnancy Due Date', NOW(), '$pregnant_id'
         )";
     }
 
     if (!empty($data['second_trimester'])) {
         $scheduleInserts[] = "(
-            '{$data['patient_id']}', 'pregnant', 'pending', '{$data['second_trimester']}', '2nd Trimester', NOW()
+            '{$data['patient_id']}', 'pregnant', 'pending', '{$data['second_trimester']}', '2nd Trimester', NOW(), '$pregnant_id'
         )";
     }
 
     if (!empty($data['third_trimester'])) {
         $scheduleInserts[] = "(
-            '{$data['patient_id']}', 'pregnant', 'pending', '{$data['third_trimester']}', '3rd Trimester', NOW()
+            '{$data['patient_id']}', 'pregnant', 'pending', '{$data['third_trimester']}', '3rd Trimester', NOW(), '$pregnant_id'
         )";
     }
 
     if (!empty($scheduleInserts)) {
         $schedSql = "INSERT INTO schedules (
-            patient_id, sched_type, status, sched_date, activity, date_created
+            patient_id, sched_type, status, sched_date, activity, date_created, pregnant_id
         ) VALUES " . implode(",", $scheduleInserts);
 
         $conn->query($schedSql); // Optional: check for insert success

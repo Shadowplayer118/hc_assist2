@@ -168,7 +168,7 @@ function AddPregnantModal({ onClose }) {
             <option value="1st Trimester">1st Trimester</option>
             <option value="2nd Trimester">2nd Trimester</option>
             <option value="3rd Trimester">3rd Trimester</option>
-            <option value="Born">Born</option>
+            <option value="born">Born</option>
             <option value="Miscarriage">Miscarriage</option>
           </select>
         </div>

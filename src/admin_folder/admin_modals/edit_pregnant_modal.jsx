@@ -8,6 +8,8 @@ function EditPregnantModal({ onClose, pregnantData = null }) {
     pregnant_id: "",
     start_date: "",
     due_date: "",
+    second_trimester_date: "",
+    third_trimester_date: "",
     status: "",
     father: "",
     father_contact: "",
@@ -29,6 +31,33 @@ function EditPregnantModal({ onClose, pregnantData = null }) {
         ...prev,
         ...pregnantData,
       }));
+
+      // Fetch 2nd and 3rd trimester schedules if pregnant_id exists
+      if (pregnantData.pregnant_id) {
+        axios
+          .get(
+            `http://localhost/hc_assist2/src/zbackend_folder/get_trimesters.php?pregnant_id=${pregnantData.pregnant_id}`
+          )
+          .then((response) => {
+            const schedules = response.data;
+
+            const secondTrimester = schedules.find(
+              (s) => s.activity === "2nd Trimester"
+            );
+            const thirdTrimester = schedules.find(
+              (s) => s.activity === "3rd Trimester"
+            );
+
+            setFormData((prev) => ({
+              ...prev,
+              second_trimester_date: secondTrimester?.sched_date || "",
+              third_trimester_date: thirdTrimester?.sched_date || "",
+            }));
+          })
+          .catch((err) => {
+            console.error("Failed to fetch schedules", err);
+          });
+      }
     }
   }, [pregnantData]);
 
@@ -114,6 +143,26 @@ function EditPregnantModal({ onClose, pregnantData = null }) {
         </div>
 
         <div style={{ marginBottom: "10px" }}>
+          <label>2nd Trimester Date</label>
+          <input
+            type="date"
+            name="second_trimester_date"
+            value={formData.second_trimester_date}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div style={{ marginBottom: "10px" }}>
+          <label>3rd Trimester Date</label>
+          <input
+            type="date"
+            name="third_trimester_date"
+            value={formData.third_trimester_date}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div style={{ marginBottom: "10px" }}>
           <label>Status</label>
           <select
             name="status"
@@ -121,8 +170,10 @@ function EditPregnantModal({ onClose, pregnantData = null }) {
             onChange={handleChange}
           >
             <option value="">Select Status</option>
-            <option value="Pregnant">Pregnant</option>
-            <option value="Born">Born</option>
+            <option value="1st Trimester">1st Trimester</option>
+            <option value="2nd Trimester">2nd Trimester</option>
+            <option value="3rd Trimester">3rd Trimester</option>
+            <option value="born">Born</option>
             <option value="Miscarriage">Miscarriage</option>
           </select>
         </div>

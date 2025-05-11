@@ -24,6 +24,10 @@ function AdminHeader() {
               <li>
                 <Link to="/admin_folder/med_table">Medicine</Link>
               </li>
+
+              <li>
+                <Link to="/admin_folder/workflow_board">Workflow</Link>
+              </li>
              
               <li>
                 <button
