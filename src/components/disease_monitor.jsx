@@ -40,7 +40,6 @@ const DiseaseMonitoring = () => {
         }],
       });
 
-      // Parse percentages safely
       setOngoingPercentage(parseFloat(ongoing_percentage));
       setNonOngoingPercentage(parseFloat(non_ongoing_percentage));
 
@@ -53,7 +52,6 @@ const DiseaseMonitoring = () => {
     fetchDiseaseData();
   }, []);
 
-  // Flag image logic with fixed range
   const getFlagImage = (percentage) => {
     const p = parseFloat(percentage);
     if (isNaN(p)) return '/flags/gray-flag.png';
@@ -67,9 +65,25 @@ const DiseaseMonitoring = () => {
     <div className="disease-monitoring-container">
       <h2>Disease Monitoring</h2>
 
+              <div className="health-flag-wrapper">
+          <img src={getFlagImage(ongoingPercentage)} alt="Alert Flag" />
+        </div>
+
       <div className="pie-chart-wrapper">
-        <Pie data={chartData} />
-        
+        <Pie
+          data={chartData}
+          options={{
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: false,
+              },
+            },
+          }}
+        />
+
         <div className="legend-header">Legend:</div>
         <ul>
           {chartData.labels.map((label, index) => (
@@ -79,10 +93,7 @@ const DiseaseMonitoring = () => {
           ))}
         </ul>
 
-        <div className="health-flag-wrapper">
-          <img src={getFlagImage(ongoingPercentage)} alt="Alert Flag" />
-          <span>Health Alert Flag</span>
-        </div>
+
       </div>
     </div>
   );

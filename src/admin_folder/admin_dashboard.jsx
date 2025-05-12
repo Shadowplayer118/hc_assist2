@@ -11,7 +11,6 @@ const Admin = () => {
   return (
     <div>
       <AdminHeader />
-      <h1 className="text-3xl font-bold my-4 text-center">Admin Page</h1>
 
       <ul className="mb-4 ml-6 list-disc">
         <li>

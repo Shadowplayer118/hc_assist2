@@ -65,7 +65,6 @@ const ComparativeData = () => {
       <h2 className="comparative-title">Patient Data Comparison</h2>
 
       <div className="comparative-controls">
-        <label>Select Category:</label>
         <select className="comparative-dropdown" value={selectedCategory} onChange={handleCategoryChange}>
           <option value="purok">Purok</option>
           <option value="pregnant">Pregnant</option>
@@ -75,7 +74,20 @@ const ComparativeData = () => {
       </div>
 
       <div>
-        <Pie data={chartData} />
+        <Pie
+          data={chartData}
+          options={{
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: false,
+              },
+            },
+          }}
+        />
+
         <div className="comparative-legend">
           <h4>Legend:</h4>
           <ul>

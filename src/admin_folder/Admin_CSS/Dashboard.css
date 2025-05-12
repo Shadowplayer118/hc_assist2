@@ -1,12 +1,29 @@
 .horizontal-container {
   display: flex;
-  flex-wrap: wrap; /* Allows wrapping on smaller screens */
-  gap: 1.5rem; /* Adds space between the components */
-  justify-content: space-between; /* Distribute components evenly */
+  flex-wrap: wrap;
+  gap: clamp(0.75rem, 2vw, 1.5rem); /* Responsive gap */
+  width: 100%;
+  max-width: 100%;
+  padding: clamp(0.5rem, 2vw, 1rem); /* Responsive padding */
+  box-sizing: border-box;
+  min-height: 100vh; /* Use min-height instead of height */
+  align-items: stretch; /* Ensure all items stretch to match the tallest */
 }
 
 .horizontal-container > * {
-  flex: 1 1 calc(50% - 1.5rem); /* Adjust the size of each component */
-  min-width: 300px; /* Ensures components do not shrink below a certain width */
-  max-width: 330px; /* Keeps the max-width the same as general */
+  flex: 1 1 300px; /* Base width of 300px, but allow growing and shrinking */
+  min-width: 150px; /* Minimum width before wrapping */
+  max-width: 23%; /* Allow full width on very small screens */
+  height: auto; /* Let height be determined by content */
+  min-height: 250px; /* Minimum height */
+  max-height: 80vh; /* Maximum height */
+}
+
+/* Media query for mobile devices */
+@media (max-width: 768px) {
+  .horizontal-container > * {
+    flex-basis: 100%; /* Full width on small screens */
+    min-width: unset;
+    max-height: 70vh; /* Slightly smaller on mobile */
+  }
 }
