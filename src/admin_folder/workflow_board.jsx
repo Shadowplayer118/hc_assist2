@@ -5,6 +5,7 @@ import ViewWorkflowModal from "./admin_modals/view_workflow";
 import AddWorkflowModal from "./admin_modals/add_workflow_modal";
 import AddAssignedWorkflowModal from "./admin_modals/add_assign_workflow_modal";
 import { Link } from "react-router-dom";
+import './Admin_CSS/Workflow.css';
 
 function WorkflowBoard() {
   const [workflows, setWorkflows] = useState([]);
@@ -76,65 +77,37 @@ function WorkflowBoard() {
   };
 
   return (
-    <div>
+    <div className="workflow-container">
       <AdminHeader />
-      <h2>Workflow Manager</h2>
 
-      <button onClick={() => setShowAddModal(true)} style={{ marginBottom: "20px" }}>
+      <button className="add-button" onClick={() => setShowAddModal(true)}>
         + Add New Workflow
       </button>
 
-      <Link to="/admin_folder/workflow_assigned_board">Assigned Workflow</Link>
+      <Link to="/admin_folder/workflow_assigned_board" className="link">Assigned Workflow</Link>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', marginTop: "20px" }}>
+      <div className="workflow-card-container">
         {workflows.map(workflow => (
-          <div
-            key={workflow.workflow_id}
-            style={{
-              border: '1px solid #ccc',
-              padding: '16px',
-              width: '300px',
-              borderRadius: '8px',
-              boxShadow: '2px 2px 6px rgba(0,0,0,0.1)'
-            }}
-          >
+          <div key={workflow.workflow_id} className="workflow-card">
             <h3>{workflow.title}</h3>
             <p>{workflow.description}</p>
-            <button onClick={() => handleViewWorkflow(workflow.workflow_id)}>View</button>
-            <button
-              onClick={() => {
-                setWorkflowToAssign(workflow);
-                setShowAssignModal(true);
-              }}
-              style={{ marginLeft: "10px", backgroundColor: "#4CAF50", color: "white" }}
-            >
-              Assign
-            </button>
-            <button onClick={() => deleteWorkflow(workflow)} style={{ marginLeft: "10px", color: "red" }}>
-              Delete
-            </button>
+            <button className="workflow-view-button" onClick={() => handleViewWorkflow(workflow.workflow_id)}>View</button>
+            <button className="workflow-assign-button" onClick={() => { setWorkflowToAssign(workflow); setShowAssignModal(true); }}>Assign</button>
+            <button className="workflow-delete-button" onClick={() => deleteWorkflow(workflow)}>Delete</button>
           </div>
         ))}
       </div>
 
       {selectedWorkflow && (
-        <ViewWorkflowModal
-          workflowData={selectedWorkflow}
-          onClose={handleCloseViewModal}
-        />
+        <ViewWorkflowModal workflowData={selectedWorkflow} onClose={handleCloseViewModal} />
       )}
 
       {showAddModal && (
-        <AddWorkflowModal
-          onClose={handleCloseAddModal}
-        />
+        <AddWorkflowModal onClose={handleCloseAddModal} />
       )}
 
       {workflowToAssign && showAssignModal && (
-        <AddAssignedWorkflowModal
-          workflow={workflowToAssign} // pass the selected workflow
-          onClose={handleCloseAssignModal}
-        />
+        <AddAssignedWorkflowModal workflow={workflowToAssign} onClose={handleCloseAssignModal} />
       )}
     </div>
   );

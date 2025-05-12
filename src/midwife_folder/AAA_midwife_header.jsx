@@ -1,40 +1,45 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {
+  FaTachometerAlt,
+  FaUsers,
+  FaSignOutAlt,
+  FaSignInAlt
+} from "react-icons/fa";
 
 function MidwifeHeader() {
   const user = JSON.parse(localStorage.getItem("user"));
 
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    window.location.href = "/";
+  };
+
   return (
-    <header>
-      <nav>
-        <ul>
-          {/* Only show links if the user is logged in */}
+    <header className="admin-header">
+      <nav className="nav-container">
+        <ul className="nav-list">
           {user ? (
-            <>
+            <div className="nav-list-inner">
               <li>
-                <Link to="/midwife_folder/midwife">Dashboard</Link>
+                <Link to="/midwife_folder/midwife">
+                  <FaTachometerAlt /> Dashboard
+                </Link>
               </li>
-              
               <li>
-                <Link to="/midwife_folder/patient_table">Patient</Link>
+                <Link to="/midwife_folder/patient_table">
+                  <FaUsers /> Patient
+                </Link>
               </li>
-             
               <li>
-                <button
-                  onClick={() => {
-                    // Log out by removing the user from localStorage
-                    localStorage.removeItem("user");
-                    window.location.href = "/"; // Redirect to login page after logout
-                  }}
-                >
-                  Logout
+                <button className="logout-button" onClick={handleLogout}>
+                  <FaSignOutAlt /> Logout
                 </button>
               </li>
-            </>
+            </div>
           ) : (
-            // If not logged in, show login link
             <li>
-              <Link to="/">Login</Link>
+              <Link to="/"><FaSignInAlt /> Login</Link>
             </li>
           )}
         </ul>

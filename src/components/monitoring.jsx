@@ -19,7 +19,10 @@ const Monitoring = () => {
   const fetchSchedules = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost/hc_assist2/src/zbackend_folder/load_monitoring.php', { range });
+      const response = await axios.post(
+        'http://localhost/hc_assist2/src/zbackend_folder/load_monitoring.php',
+        { range }
+      );
       setSchedules(response.data);
     } catch (error) {
       console.error('Failed to fetch schedules:', error);
@@ -48,27 +51,36 @@ const Monitoring = () => {
       </div>
 
       {loading ? (
-        <p>Loading...</p>
+        <p className="monitoring-empty">Loading...</p>
       ) : schedules.length === 0 ? (
-        <p>No schedules for this {range}.</p>
+        <p className="monitoring-empty">No schedules for this {range}.</p>
       ) : (
         <ul className="schedule-list">
           {schedules.map((sched) => (
             <li key={sched.sched_id} className="schedule-item">
               <img
-                src={sched.patient_image
-                  ? `http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${sched.patient_image}`
-                  : 'http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg'}
+                src={
+                  sched.patient_image
+                    ? `http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${sched.patient_image}`
+                    : 'http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg'
+                }
                 alt={`${sched.first_name} ${sched.last_name}`}
                 className="schedule-img"
               />
-          <div className="schedule-details">
-            <div className="schedule-name">{sched.first_name} {sched.last_name}</div>
-            <div className="schedule-text">Type: <span className="text-bold">{sched.sched_type}</span></div>
-            <div className="schedule-text">Activity: <span className="text-bold">{sched.activity}</span></div>
-            <div className="schedule-text">Status: <span className="text-bold">{sched.status}</span></div>
-          </div>
+              <div className="schedule-details">
+                <div className="schedule-name">
+                  {sched.first_name} {sched.last_name}
+                </div>
+                  <div className="schedule-info">
+                    <div className="schedule-text">
+                    <span className="text-bold">{sched.sched_type}</span>
+                    </div>
+                    <div className="schedule-text">
+                    <span className="text-bold">{sched.activity}</span>
+                    </div>
+                  </div>
 
+              </div>
             </li>
           ))}
         </ul>

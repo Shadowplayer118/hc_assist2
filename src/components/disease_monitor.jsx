@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, CategoryScale } from 'chart.js';
 import axios from 'axios';
-import './Component_CSS/DiseaseMonitoring.css'
+import './Component_CSS/DiseaseMonitoring.css';
 
 ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
 
@@ -65,35 +65,39 @@ const DiseaseMonitoring = () => {
     <div className="disease-monitoring-container">
       <h2>Disease Monitoring</h2>
 
-              <div className="health-flag-wrapper">
-          <img src={getFlagImage(ongoingPercentage)} alt="Alert Flag" />
-        </div>
+      <div className="health-flag-wrapper">
+        <img src={getFlagImage(ongoingPercentage)} alt="Alert Flag" />
+        <span>{ongoingPercentage.toFixed(1)}% Ongoing</span>
+      </div>
 
       <div className="pie-chart-wrapper">
-        <Pie
-          data={chartData}
-          options={{
-            plugins: {
-              legend: {
-                display: false,
+        <div className="pie-chart-canvas">
+          <Pie
+            data={chartData}
+            options={{
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+                tooltip: {
+                  enabled: false,
+                },
               },
-              tooltip: {
-                enabled: false,
-              },
-            },
-          }}
-        />
+            }}
+          />
+        </div>
 
-        <div className="legend-header">Legend:</div>
+        <div className="legend-header">LEGEND :</div>
         <ul>
           {chartData.labels.map((label, index) => (
-            <li key={index} style={{ color: chartData.datasets[0].backgroundColor[index] }}>
-              <span>{label}:</span> {chartData.datasets[0].data[index]}
+            <li key={index}>
+              <span className="color-circle" style={{ backgroundColor: chartData.datasets[0].backgroundColor[index] }}></span>
+              <span className="label">{label}</span>
+              <span className="count">{chartData.datasets[0].data[index]}</span>
             </li>
           ))}
         </ul>
-
-
       </div>
     </div>
   );

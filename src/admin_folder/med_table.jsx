@@ -4,6 +4,8 @@ import AdminHeader from './AAA_admin_header';
 import AddMedModal from "./admin_modals/add_med_modal";
 import EditMedModal from "./admin_modals/edit_med_modal";
 import StockMedModal from "./admin_modals/stockInOut_modal";
+import { FaEdit, FaTrash, FaBoxes } from "react-icons/fa"; // Added icons
+import './Admin_CSS/StaffTable.css'; // Assuming you will add styling for this table
 
 function MedTable() {
   const [meds, setMeds] = useState([]);
@@ -36,22 +38,17 @@ function MedTable() {
     }
   };
 
-
-
   const handleEdit = (medId) => {
     const medToEdit = meds.find(p => p.meds_id === medId);
     if (medToEdit) {
-      setSelectedMed(medToEdit); // Open modal with selected patient's data
+      setSelectedMed(medToEdit); // Open modal with selected med's data
     }
   };
-
-
 
   const handleCloseEditModal = () => {
     setSelectedMed(null);
     fetchMeds(); // Refresh after edit
   };
-
 
   const handleStock = (med) => {
     setSelectedStockMed(med);
@@ -61,18 +58,18 @@ function MedTable() {
     const confirmDelete = window.confirm(
       `Are you sure you want to delete "${med.item_name}"? This action can be undone from the backup table.`
     );
-  
+
     if (!confirmDelete) return;
-  
+
     const user = JSON.parse(localStorage.getItem("user"));
     const staffId = user ? user.staff_id : "";
-  
+
     try {
       const response = await axios.post('http://localhost/hc_assist2/src/zbackend_folder/delete_med.php', {
         meds_id: med.meds_id,
         staff_id: staffId,
       });
-  
+
       if (response.data.success) {
         alert('Deleted successfully!');
         fetchMeds(); // Refresh the list after deletion
@@ -84,23 +81,21 @@ function MedTable() {
       alert('Something went wrong.');
     }
   };
-  
+
   return (
-    <div>
+    <div className="med-container">
       <AdminHeader />
 
-      <h2>Medicine Inventory</h2>
-
-      <button onClick={() => setIsAddModalOpen(true)}>Add New Medicine</button>
+      <button className="add-button" onClick={() => setIsAddModalOpen(true)}>Add New Medicine</button>
       {isAddModalOpen && (
         <AddMedModal onClose={() => setIsAddModalOpen(false)} />
       )}
 
       {selectedMed && (
         <EditMedModal
-        medData={selectedMed} // ✅ use a more accurate prop name
-        onClose={handleCloseEditModal}
-      />
+          medData={selectedMed} // ✅ use a more accurate prop name
+          onClose={handleCloseEditModal}
+        />
       )}
 
       {selectedStockMed && (
@@ -112,9 +107,10 @@ function MedTable() {
       )}
 
       {/* Search input above table */}
-      <div style={{ marginBottom: "10px" }}>
+      <div className="search-row">
         <input
           type="text"
+          className="search-input"
           placeholder="Search by Item Name"
           value={itemName}
           onChange={(e) => setItemName(e.target.value)}
@@ -122,46 +118,54 @@ function MedTable() {
       </div>
 
       {/* Table */}
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>Item Name</th>
-            <th>
-              <select value={brand} onChange={(e) => setBrand(e.target.value)}>
-                <option value="">All Brands</option>
-                {filterOptions.brands.map((b, i) => (
-                  <option key={i} value={b}>{b}</option>
-                ))}
-              </select>
-            </th>
-            <th>Units</th>
-            <th>
-              <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                <option value="">All Categories</option>
-                {filterOptions.categories.map((c, i) => (
-                  <option key={i} value={c}>{c}</option>
-                ))}
-              </select>
-            </th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {meds.map((med, index) => (
-            <tr key={index}>
-              <td>{med.item_name}</td>
-              <td>{med.brand}</td>
-              <td>{med.units}</td>
-              <td>{med.category}</td>
-              <td>
-              <button onClick={() => handleEdit(med.meds_id)}>Edit</button>
-                <button onClick={() => handleStock(med)}>Stock</button>{" "}
-                <button onClick={() => handleDelete(med)}>Delete</button>
-              </td>
+      <div className="table-wrapper">
+        <table className="staff-table">
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th>
+                <select value={brand} onChange={(e) => setBrand(e.target.value)}>
+                  <option value="">All Brands</option>
+                  {filterOptions.brands.map((b, i) => (
+                    <option key={i} value={b}>{b}</option>
+                  ))}
+                </select>
+              </th>
+              <th>Units</th>
+              <th>
+                <select value={category} onChange={(e) => setCategory(e.target.value)}>
+                  <option value="">All Categories</option>
+                  {filterOptions.categories.map((c, i) => (
+                    <option key={i} value={c}>{c}</option>
+                  ))}
+                </select>
+              </th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {meds.map((med, index) => (
+              <tr key={index}>
+                <td>{med.item_name}</td>
+                <td>{med.brand}</td>
+                <td>{med.units}</td>
+                <td>{med.category}</td>
+                <td>
+                  <button className="icon-button edit-button" onClick={() => handleEdit(med.meds_id)}>
+                    <FaEdit />
+                  </button>
+                  <button className="icon-button stock-button" onClick={() => handleStock(med)}>
+                    <FaBoxes />
+                  </button>
+                  <button className="icon-button delete-button" onClick={() => handleDelete(med)}>
+                    <FaTrash />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

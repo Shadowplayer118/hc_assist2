@@ -1,35 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
-* {
-  font-family: 'Poppins', sans-serif;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 .general-report-container {
-  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Ensures content is spaced out */
+  height: 100%;
+  border-radius: 10px;
+  padding: 10px;
   background-color: white;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
-  border-radius: 5px;
-  width: 100%;         /* Allow container to take up full width */
-  max-width: 240px;    /* Set max width to 240px */
-  height: auto;        /* Adjust the height based on content */
 }
 
 .report-title {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 8px;
-  text-align: center;
+  text-align: left;
 }
 
 .filter-container {
   display: flex;
   gap: 6px;
   margin-bottom: 10px;
-  justify-content: center;
+  justify-content: left;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .filter-item {
@@ -44,42 +36,95 @@
 }
 
 .filter-select {
-  padding: 3px 6px;
-  font-size: 11px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease;
+  color: #333; /* Default text color */
+
+}
+
+.filter-select:hover {
+  border-color: #007bff;
+}
+
+.filter-select:focus {
+  border-color: #007bff; /* Highlight border when focused */
+  outline: none;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.5); /* Subtle shadow for focus */
+}
+
+/* Specific styling for year/month select button to match Generate Report button */
+.filter-select.year-month {
+  background-color: #007bff; /* Match the blue color of the report button */
+  color: white;
+  border: none;
+}
+
+.filter-select.year-month:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.filter-select.year-month:focus {
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.7); /* More prominent shadow on focus */
 }
 
 .report-table-container {
+  flex-grow: 1; /* Ensures the table container takes available space */
   margin-top: 10px;
+  overflow: hidden;
+
 }
 
 .report-table {
-  width: 100%;
+  width: 100%; /* Ensure the table fits the container */
+  height: 85%; /* Table height adjusts based on content */
   border-collapse: collapse;
-  font-size: 11px;
+  font-size: 12px;
+
+
 }
 
 .report-table th,
 .report-table td {
-  padding: 3px 5px;
-  border: 1px solid #ddd;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd; /* Lighter, cleaner border */
+  text-align: left;
+  width: 10px;
 }
 
 .report-table th {
-  background-color: #f2f2f2;
-  font-weight: 500;
+  background-color: #f9f9f9;
+  color: #333;
+  font-weight: 600;
+}
+
+.report-table td {
+  background-color: #fff;
+
+}
+
+.report-table tr:nth-child(even) td {
+  background-color: #f8f8f8; /* Subtle row striping for readability */
+}
+
+.report-table tr:hover td {
+  background-color: #f1f1f1; /* Highlight row on hover */
 }
 
 .generate-report-btn {
-  margin-top: 10px;
-  padding: 5px 10px;
+  padding: 8px 16px;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 11px;
+  font-size: 12px;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+  align-self: flex-end; /* Ensures the button stays at the bottom */
 }
 
 .generate-report-btn:hover {
@@ -93,6 +138,15 @@
 /* Optional: Add a media query to make the container more flexible on smaller screens */
 @media (max-width: 480px) {
   .general-report-container {
-    max-width: 100%;  /* Allow the container to take up full width on smaller screens */
+    max-width: 100%;
+  }
+
+  .filter-container {
+
+    flex-direction: column; /* Stack filters vertically on small screens */
+  }
+
+  .generate-report-btn {
+    width: 100%; /* Make the button take up full width on mobile */
   }
 }

@@ -73,7 +73,7 @@ const ComparativeData = () => {
         </select>
       </div>
 
-      <div>
+      <div className="comparative-chart-container">
         <Pie
           data={chartData}
           options={{
@@ -85,19 +85,25 @@ const ComparativeData = () => {
                 enabled: false,
               },
             },
+            responsive: true,
+            maintainAspectRatio: false,
+            width: 50,
+            height: 50,
           }}
         />
+      </div>
 
-        <div className="comparative-legend">
-          <h4>Legend:</h4>
-          <ul>
-            {chartData.labels.map((label, index) => (
-              <li key={index} style={{ color: chartData.datasets[0].backgroundColor[index] }}>
-                {label}: {chartData.datasets[0].data[index]}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="comparative-legend">
+        <h4>Legend:</h4>
+        <ul>
+          {chartData.labels.map((label, index) => (
+            <li key={index}>
+              <span className="color-circle" style={{ backgroundColor: chartData.datasets[0].backgroundColor[index] }}></span>
+              <span className="label">{label}</span>
+              <span className="count">{chartData.datasets[0].data[index]}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

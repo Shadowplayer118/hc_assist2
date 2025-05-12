@@ -119,7 +119,7 @@ const GeneralReport = () => {
 
       <div className="filter-container">
         <div className="filter-item">
-          <label className="filter-label">Select Month:</label>
+
           <select
             className="filter-select"
             value={selectedMonth}
@@ -134,7 +134,6 @@ const GeneralReport = () => {
         </div>
 
         <div className="filter-item">
-          <label className="filter-label">Select Year:</label>
           <select
             className="filter-select"
             value={selectedYear}

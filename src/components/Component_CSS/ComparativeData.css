@@ -3,22 +3,25 @@
   background-color: white;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
   border-radius: 6px;
-  max-width: 220px;
+  max-width: 240px;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .comparative-title {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 8px;
-  text-align: center;
+  text-align: left;
 }
 
 .comparative-controls {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 6px;
 }
 
 .comparative-controls label {
@@ -31,19 +34,28 @@
   font-size: 12px;
   border-radius: 3px;
   border: 1px solid #ccc;
+  margin-top: 20px;
 }
 
 .comparative-legend {
-  text-align: center;
-  margin-top: 10px;
-  max-height: 100px;
-  overflow-y: auto;
+  text-align: left;
+  margin-top: 0;
+  padding-left: 10px;
+  background-color: white;
+  padding-top: 10px;
+  max-height: 40%;
+  overflow-y: scroll;
 }
 
 .comparative-legend h4 {
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #007bff;
+  margin-bottom: 12px;
+  background-color: white;
+  padding: 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .comparative-legend ul {
@@ -53,8 +65,28 @@
 }
 
 .comparative-legend li {
-  font-size: 11px;
-  margin-bottom: 3px;
+  font-size: 12px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.comparative-legend li span.color-circle {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 8px;
+  border-radius: 50%;
+}
+
+.comparative-legend li span.label {
+  flex-grow: 1;
+}
+
+.comparative-legend li span.count {
+  margin-left: 5px; /* Space between label and count */
+
 }
 
 .comparative-dropdown {
@@ -71,4 +103,14 @@
 .comparative-dropdown option {
   background-color: white;
   color: black;
+}
+
+.comparative-chart-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 300px;
+  margin-top: 10px;
+  overflow: hidden;
 }

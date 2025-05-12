@@ -12,13 +12,11 @@ const Admin = () => {
     <div>
       <AdminHeader />
 
-      <ul className="mb-4 ml-6 list-disc">
-        <li>
-          <Link to="/admin_folder/activity_log" target="_blank" className="text-blue-600 underline">
-            Activity Log
-          </Link>
-        </li>
-      </ul>
+    <li>
+      <Link to="/admin_folder/activity_log" target="_blank" className="activity-log-button">
+        Activity Log
+      </Link>
+    </li>
 
       <div className="horizontal-container">
   <GeneralReport />

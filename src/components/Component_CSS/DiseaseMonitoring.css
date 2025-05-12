@@ -5,7 +5,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   width: 100%;
   max-width: 330px;
-  height: 100%;  /* Ensure it fits within the parent container */
+  height: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -19,18 +19,25 @@
 
 .pie-chart-wrapper {
   text-align: left;
-  flex-grow: 1; /* Ensure this area takes up available space */
+  flex-grow: 1;
+}
+
+.pie-chart-wrapper .legend-header {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: #007bff;
 }
 
 .pie-chart-wrapper ul {
   list-style: none;
   padding: 0;
-  margin-top: 1rem;
+  margin: 0;
   font-size: 0.9rem;
   color: #333;
-  overflow-y: auto;  /* Enable scrolling if content overflows */
-  max-height: 150px; 
-  background-color: red;/* Adjust this value to control the max height of the legend */
+  overflow-y: scroll;
+  max-height: 30%;
 }
 
 .pie-chart-wrapper li {
@@ -40,30 +47,38 @@
   margin-bottom: 0.5rem;
 }
 
-.pie-chart-wrapper li span {
-  font-weight: 600;
+.color-circle {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 8px;
 }
 
-.pie-chart-wrapper .health-flag-wrapper {
-  margin-top: 1.5rem;
+.label {
+  font-weight: 600;
+  flex-grow: 1;
+}
+
+.count {
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.health-flag-wrapper {
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.pie-chart-wrapper .health-flag-wrapper img {
+.health-flag-wrapper img {
   width: 2rem;
   height: 2rem;
 }
 
-.pie-chart-wrapper .health-flag-wrapper span {
+.health-flag-wrapper span {
   font-size: 0.85rem;
   color: #555;
   font-weight: 500;
-}
-
-.pie-chart-wrapper .legend-header {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
 }

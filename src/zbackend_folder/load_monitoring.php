@@ -46,6 +46,7 @@ $query = "
     INNER JOIN patient p ON s.patient_id = p.patient_id
     WHERE $whereClause
       AND p.is_deleted != 'true'
+      AND s.status != 'cancelled'
     ORDER BY s.sched_date ASC
 ";
 

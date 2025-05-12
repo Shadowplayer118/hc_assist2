@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {
+  FaFileMedical,
+  FaHeartbeat,
+  FaSyringe,
+  FaShareAlt,
+  FaCalendarAlt,
+  FaBaby,
+  FaTimesCircle,
+  FaSignInAlt
+} from "react-icons/fa";
 
 function AdminHeader({ patientId }) {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -27,50 +37,52 @@ function AdminHeader({ patientId }) {
   }, [patientId]);
 
   return (
-    <header>
-      <nav>
-        <ul>
+    <header className="admin-header">
+      <nav className="nav-container">
+        <ul className="nav-list">
           {user ? (
-            <>
+            <div className="nav-list-inner">
               <li>
                 <Link to={`/admin_folder/medical_record_table/${patientId}`}>
-                  Medical 
+                  <FaFileMedical /> Medical
                 </Link>
               </li>
               <li>
                 <Link to={`/admin_folder/disease_table/${patientId}`}>
-                  Disease Record
+                  <FaHeartbeat /> Disease Record
                 </Link>
               </li>
               <li>
                 <Link to={`/admin_folder/immuni_table/${patientId}`}>
-                  Immunization Record
+                  <FaSyringe /> Immunization Record
                 </Link>
               </li>
               <li>
                 <Link to={`/admin_folder/referral_table/${patientId}`}>
-                  Referrals
+                  <FaShareAlt /> Referrals
                 </Link>
               </li>
               <li>
                 <Link to={`/admin_folder/schedule_table/${patientId}`}>
-                  Schedules
+                  <FaCalendarAlt /> Schedules
                 </Link>
               </li>
               {gender === "Female" && (
                 <li>
                   <Link to={`/admin_folder/pregnant_table/${patientId}`}>
-                    Pregnant
+                    <FaBaby /> Pregnant
                   </Link>
                 </li>
               )}
               <li>
-                <button onClick={() => window.close()}>Close</button>
+                <button className="logout-button" onClick={() => window.close()}>
+                  <FaTimesCircle /> Close
+                </button>
               </li>
-            </>
+            </div>
           ) : (
             <li>
-              <Link to="/">Login</Link>
+              <Link to="/"><FaSignInAlt /> Login</Link>
             </li>
           )}
         </ul>

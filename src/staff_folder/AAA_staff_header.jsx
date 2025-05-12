@@ -1,44 +1,51 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {
+  FaTachometerAlt,
+  FaUsers,
+  FaProjectDiagram,
+  FaSignOutAlt,
+  FaSignInAlt
+} from "react-icons/fa";
 
 function StaffHeader() {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  return (
-    <header>
-      <nav>
-        <ul>
-          {/* Only show links if the user is logged in */}
-          {user ? (
-            <>
-              <li>
-                <Link to="/staff_folder/staff">Dashboard</Link>
-              </li>
-              
-              <li>
-                <Link to="/staff_folder/patient_table">Patient</Link>
-              </li>
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    window.location.href = "/";
+  };
 
-                            <li>
-                <Link to="/staff_folder/workflow_board">Workflow</Link>
-              </li>
-             
+  return (
+    <header className="admin-header">
+      <nav className="nav-container">
+        <ul className="nav-list">
+          {user ? (
+            <div className="nav-list-inner">
               <li>
-                <button
-                  onClick={() => {
-                    // Log out by removing the user from localStorage
-                    localStorage.removeItem("user");
-                    window.location.href = "/"; // Redirect to login page after logout
-                  }}
-                >
-                  Logout
+                <Link to="/staff_folder/staff">
+                  <FaTachometerAlt /> Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link to="/staff_folder/patient_table">
+                  <FaUsers /> Patient
+                </Link>
+              </li>
+              <li>
+                <Link to="/staff_folder/workflow_board">
+                  <FaProjectDiagram /> Workflow
+                </Link>
+              </li>
+              <li>
+                <button className="logout-button" onClick={handleLogout}>
+                  <FaSignOutAlt /> Logout
                 </button>
               </li>
-            </>
+            </div>
           ) : (
-            // If not logged in, show login link
             <li>
-              <Link to="/">Login</Link>
+              <Link to="/"><FaSignInAlt /> Login</Link>
             </li>
           )}
         </ul>
