@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css"; // Make sure to create this CSS file
@@ -9,6 +9,20 @@ function Login() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+
+  // 🔔 Notify staff if medicines are expiring within 7 days
+  useEffect(() => {
+    const notifyExpiringMeds = async () => {
+      try {
+        await axios.get("http://localhost/hc_assist2/src/zbackend_folder/notify_expiring_meds.php");
+        console.log("Expiring meds notification checked.");
+      } catch (error) {
+        console.error("Failed to send expiring meds notification:", error);
+      }
+    };
+
+    notifyExpiringMeds();
+  }, []);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -117,8 +131,6 @@ function Login() {
                 </div>
               </div>
 
-
-
               <button 
                 type="submit" 
                 className={`login-button ${isLoading ? 'loading' : ''}`}
@@ -132,10 +144,6 @@ function Login() {
               </button>
 
               {error && <div className="error-message">{error}</div>}
-
-
-
-
             </form>
           </div>
         </div>

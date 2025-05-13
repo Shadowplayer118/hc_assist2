@@ -1,0 +1,129 @@
+body {
+  overflow: hidden;
+  margin: 0;
+}
+
+.admin-header {
+  background-color: #3a44ce;
+  padding: clamp(4px, 1vw, 10px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.nav-list {
+  display: flex;
+  flex-wrap: nowrap;
+  /* Base gap with viewport-responsive scaling */
+  gap: max(clamp(8px, 2vw, 30px), calc(1vw + 5px));
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  width: 100%;
+  /* This is the key change - space-evenly will increase spacing as container grows */
+  justify-content: space-evenly;
+}
+
+/* Optional: This container helps control spacing distribution */
+.nav-list-inner {
+  display: flex;
+  flex: 1;
+  justify-content: space-evenly;
+  /* Calculate minimum width based on content plus minimum desired spacing */
+  min-width: max-content;
+}
+
+.nav-list li {
+  white-space: nowrap;
+  /* Add minimum padding that will expand when zooming out */
+  padding: 0 min(1vw, 5px);
+}
+
+.nav-list li a {
+  color: #ecf0f1;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  display: block;
+  padding: 0.3rem 0;
+}
+
+.nav-list li a:hover {
+  color: #1abc9c;
+}
+
+.logout-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: clamp(4px, 1vw, 10px) clamp(8px, 1.5vw, 16px);
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  white-space: nowrap;
+}
+
+.logout-button:hover {
+  background-color: #c0392b;
+}
+
+/* Media Queries for responsiveness */
+
+/* For large screens and zoomed-out views */
+@media (min-width: 1200px) {
+  .nav-list {
+    /* Increase spacing even more on larger screens */
+    gap: calc(3vw + 10px);
+  }
+}
+
+/* For medium screens */
+@media (max-width: 768px) {
+  .nav-list {
+    /* Maintain some spacing on medium screens */
+    gap: calc(1.5vw + 8px);
+    justify-content: space-around;
+  }
+}
+
+/* For tablets and smaller screens */
+@media (max-width: 640px) {
+  .nav-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  
+  .nav-list {
+    width: max-content;
+    min-width: 100%;
+    padding: 0.3rem 0;
+    /* Reduce spacing on smaller screens */
+    gap: max(clamp(8px, 1.5vw, 20px), 8px);
+  }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+  .admin-header {
+    padding: 4px 6px;
+  }
+  
+  .nav-list {
+    /* Minimum spacing on smallest screens */
+    gap: max(8px, 1vw);
+  }
+}

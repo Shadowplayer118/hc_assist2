@@ -13,7 +13,6 @@ require_once("../db.php");
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$today = date("Y-m-d");
 $meds_id = $data['meds_id'] ?? null;
 if (!$meds_id) {
     echo json_encode([
@@ -24,18 +23,18 @@ if (!$meds_id) {
 }
 
 $query = "
-    SELECT em.*, m.item_name
+    SELECT em.*, m.item_name, m.brand, m.units
     FROM expired_meds em
     INNER JOIN meds m ON em.meds_id = m.meds_id
     WHERE em.meds_id = ?
       AND em.exp_date IS NOT NULL
-      AND em.exp_date <= ?
+      AND em.exp_date <= DATE_ADD(CURDATE(), INTERVAL 7 DAY)
       AND em.action_taken = 'none'
     ORDER BY em.exp_date ASC
 ";
 
 $stmt = $conn->prepare($query);
-$stmt->bind_param("is", $meds_id, $today);
+$stmt->bind_param("i", $meds_id);
 $stmt->execute();
 $result = $stmt->get_result();
 

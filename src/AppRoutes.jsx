@@ -28,6 +28,17 @@ import WorkflowAssignBoardStaff from "./staff_folder/workflow_assigned_board";
 
 import PatientTableMidwife from "./midwife_folder/patient_table";
 
+
+
+import StaffBoard from "./patient_folder/available_staff";
+import MedBoard from "./patient_folder/available_meds";
+import PatientCalendar from "./patient_folder/calendar";
+import MedicalRecordsTablePatient from "./patient_folder/medical_record_table";
+import DiseaseTablePatient from "./patient_folder/disease_table";
+import ImmunizationTablePatient from "./patient_folder/immuni_table";
+import ReferralTablePatient from "./patient_folder/referral_table";
+import ScheduleTablePatient from "./patient_folder/schedule_table";
+
 import PrivateRoute from "./PrivateRoute";
 
 function AppRoutes() {
@@ -81,6 +92,17 @@ function AppRoutes() {
 
     // Midwife Routes
     { path: "/midwife_folder/patient_table", element: <PatientTableMidwife /> },
+
+    // Patient Routes
+
+    { path: "/patient_folder/available_staff", element: <StaffBoard /> },
+    { path: "/patient_folder/available_meds", element: <MedBoard /> },
+    { path: "/patient_folder/calendar", element: <PatientCalendar /> },
+    { path: "/patient_folder/medical_record_table", element: <MedicalRecordsTablePatient /> },
+    { path: "/patient_folder/disease_table", element: <DiseaseTablePatient /> },
+    { path: "/patient_folder/immuni_table", element: <ImmunizationTablePatient /> },
+    { path: "/patient_folder/referral_table", element: <ReferralTablePatient /> },
+    { path: "/patient_folder/schedule_table", element: <ScheduleTablePatient /> },
     
   ];
 
