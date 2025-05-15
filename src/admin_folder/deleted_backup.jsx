@@ -118,7 +118,6 @@ function DeletedBackupTable() {
           <li>
             <Link to="/admin_folder/activity_log" target='_blank'>Activity Log</Link>
           </li>
-      <AdminHeader />
       <h2>Patient List</h2>
 
       <button onClick={() => setIsAddModalOpen(true)}>Add New Patient</button>

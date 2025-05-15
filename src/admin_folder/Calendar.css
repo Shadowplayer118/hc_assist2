@@ -145,6 +145,24 @@ h3 {
 margin: 0px;
 }
 
+.schedule-info-monitoring {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.85rem;
+  gap: 4px;
+  position: absolute;
+  top: 25px;
+
+}
+
+.schedule-text-monitoring{
+  font-size: 10px;
+}
+
+.schedule-info-monitoring p{
+margin: 0px;
+}
+
 .patient-image {
   flex-shrink: 0;
   width: 60px;

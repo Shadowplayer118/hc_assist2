@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import RecordsHeader from "./AAA_records_header";
 import AddScheduleModal from "./admin_modals/add_schedule_modal";
 import EditScheduleModal from "./admin_modals/edit_schedule_modal";
+import "./Admin_CSS/Schedule.css";
 
 function ScheduleTable() {
   const { patientId } = useParams();
@@ -63,15 +64,13 @@ function ScheduleTable() {
   const uniqueStatuses = [...new Set(scheduleRecords.map(rec => rec.status))];
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="admin_patient_sched-container">
       <RecordsHeader patientId={patientId} />
-      <h2>Schedule Records</h2>
-
-
+      <h2 className="admin_patient_sched-heading">Schedule Records</h2>
 
       {/* Patient Info */}
       {patientInfo && (
-        <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
+        <div className="admin_patient_sched-info">
           <img
             src={`http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${patientInfo.patient_image || "PatientDefault.jpg"}`}
             alt="Patient"
@@ -79,7 +78,7 @@ function ScheduleTable() {
               e.target.onerror = null;
               e.target.src = "http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg";
             }}
-            style={{ width: "100px", height: "100px", borderRadius: "50%", marginRight: "20px" }}
+            className="admin_patient_sched-img"
           />
           <div>
             <h3>{patientInfo.first_name} {patientInfo.last_name}</h3>
@@ -88,36 +87,38 @@ function ScheduleTable() {
       )}
 
       {/* Date Filter */}
-      <div style={{ marginBottom: "20px" }}>
-        <label htmlFor="startDate">Start Date: </label>
+      <div className="admin_patient_sched-date-filter">
+        <label htmlFor="startDate" className="admin_patient_sched-label">Start Date: </label>
         <input
           type="date"
           id="startDate"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
+          className="admin_patient_sched-input"
         />
-        <label htmlFor="endDate" style={{ marginLeft: "10px" }}>End Date: </label>
+        <label htmlFor="endDate" className="admin_patient_sched-label">End Date: </label>
         <input
           type="date"
           id="endDate"
           value={endDate}
           onChange={(e) => setEndDate(e.target.value)}
+          className="admin_patient_sched-input"
         />
       </div>
 
-          <button onClick={() => setShowModal(true)} style={{ marginBottom: "15px" }}>
+      <button onClick={() => setShowModal(true)} className="admin_patient_sched-btn">
         Add New Record
-    </button>
+      </button>
 
       {/* Schedule Table */}
-      <table border="1" cellPadding="8">
+      <table className="admin_patient_sched-table">
         <thead>
           <tr>
             <th>
-              <br />
               <select
                 value={filteredType}
                 onChange={(e) => setFilteredType(e.target.value)}
+                className="admin_patient_sched-filter"
               >
                 <option value="">Schedule Type</option>
                 {uniqueSchedTypes.map((type, index) => (
@@ -126,10 +127,10 @@ function ScheduleTable() {
               </select>
             </th>
             <th>
-              <br />
               <select
                 value={filteredStatus}
                 onChange={(e) => setFilteredStatus(e.target.value)}
+                className="admin_patient_sched-filter"
               >
                 <option value="">Status</option>
                 {uniqueStatuses.map((status, index) => (
@@ -155,8 +156,8 @@ function ScheduleTable() {
                 <td>{record.sched_date}</td>
                 <td>{record.activity}</td>
                 <td>
-                  <button onClick={() => setSelectedRecord(record)}>Edit</button>
-                  <button onClick={() => handleDelete(record.sched_id)} style={{ marginLeft: "8px" }}>Delete</button>
+                  <button onClick={() => setSelectedRecord(record)} className="admin_patient_sched-edit-btn">Edit</button>
+                  <button onClick={() => handleDelete(record.sched_id)} className="admin_patient_sched-delete-btn">Delete</button>
                 </td>
               </tr>
             ))}

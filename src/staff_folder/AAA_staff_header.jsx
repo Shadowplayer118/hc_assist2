@@ -2,10 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {
   FaTachometerAlt,
+  FaUserMd,
   FaUsers,
+  FaPills,
   FaProjectDiagram,
+  FaCalendarAlt,
   FaSignOutAlt,
-  FaSignInAlt
+  FaSignInAlt,
 } from "react-icons/fa";
 
 function StaffHeader() {
@@ -33,11 +36,22 @@ function StaffHeader() {
                 </Link>
               </li>
               <li>
+                <Link to="/staff_folder/med_table">
+                  <FaPills /> Medicine
+                </Link>
+              </li>
+              <li>
                 <Link to="/staff_folder/workflow_board">
                   <FaProjectDiagram /> Workflow
                 </Link>
               </li>
               <li>
+                <Link to="/staff_folder/calendar">
+                  <FaCalendarAlt /> Calendar
+                </Link>
+              </li>
+              <li>
+                
                 <button className="logout-button" onClick={handleLogout}>
                   <FaSignOutAlt /> Logout
                 </button>

@@ -19,6 +19,7 @@ $query = "
     FROM disease d
     INNER JOIN patient p ON p.patient_id = d.patient_id
     WHERE d.disease_status = 'Ongoing'
+    AND d.is_deleted != 'true'
     GROUP BY d.disease_name
 ";
 
@@ -47,6 +48,7 @@ $queryNonOngoing = "
     SELECT COUNT(DISTINCT patient_id) AS non_ongoing_count
     FROM disease
     WHERE disease_status != 'Ongoing'
+
 ";
 $nonOngoingResult = $conn->query($queryNonOngoing);
 $nonOngoingCount = $nonOngoingResult->fetch_assoc()['non_ongoing_count'];

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import RecordsHeader from "./AAA_records_header";
 import AddImmunizationModal from "./admin_modals/add_immu_modal";
 import EditImmunizationModal from "./admin_modals/edit_immu_modal";
+import "./Admin_CSS/PatientRecords.css";
 
 function ImmunizationTable() {
   const { patientId } = useParams();
@@ -16,16 +17,18 @@ function ImmunizationTable() {
 
   useEffect(() => {
     fetchImmunizations();
-  }, [patientId, startDate, endDate, immunizations]); 
+  }, [patientId, startDate, endDate]);
 
   const fetchImmunizations = async () => {
     try {
-      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/load_immu.php", {
-        patient_id: patientId,
-        start_date: startDate,
-        end_date: endDate,
-      });
-
+      const response = await axios.post(
+        "http://localhost/hc_assist2/src/zbackend_folder/load_immu.php",
+        {
+          patient_id: patientId,
+          start_date: startDate,
+          end_date: endDate,
+        }
+      );
       setImmunizations(response.data.immunizations || []);
       setPatientInfo(response.data.patient_info || {});
     } catch (err) {
@@ -35,74 +38,63 @@ function ImmunizationTable() {
 
   const handleEdit = (immuId) => {
     const recordToEdit = immunizations.find(record => record.immu_id === immuId);
-    if (recordToEdit) {
-      setSelectedRecord(recordToEdit);
-    }
+    if (recordToEdit) setSelectedRecord(recordToEdit);
   };
 
   const handleCloseEditModal = () => {
     setSelectedRecord(null);
-    fetchImmunizations(); // Correct function name
+    fetchImmunizations();
   };
 
-    const handleDelete = async (recordId) => {
-  
-      const confirmed = window.confirm("Are you sure you want to delete this record?");
-      if (!confirmed) return;
-  
-  
-      try {
-        const user = JSON.parse(localStorage.getItem("user"));  // Parse the user object
-        const staffId = user ? user.staff_id : "";// wherever you're storing the logged-in staff
-        await axios.post("http://localhost/hc_assist2/src/zbackend_folder/delete_immu.php", {
+  const handleDelete = async (recordId) => {
+    const confirmed = window.confirm("Are you sure you want to delete this record?");
+    if (!confirmed) return;
+
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const staffId = user?.staff_id || "";
+      await axios.post(
+        "http://localhost/hc_assist2/src/zbackend_folder/delete_immu.php",
+        {
           record_id: recordId,
-          staff_id: staffId
-        });
-        alert("Record deleted.");
-        // refresh list here
-      } catch (err) {
-        console.error("Delete failed:", err);
-        alert("Failed to delete record.");
-      }
-    };
+          staff_id: staffId,
+        }
+      );
+      alert("Record deleted.");
+      fetchImmunizations();
+    } catch (err) {
+      console.error("Delete failed:", err);
+      alert("Failed to delete record.");
+    }
+  };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="admin_patient_container">
       <RecordsHeader patientId={patientId} />
-      <h2>Immunization Records</h2>
+      <h2 className="admin_patient_title">Immunization Records</h2>
 
       {patientInfo && (
-        <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
+        <div className="admin_patient_info">
           <img
             src={`http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${patientInfo.patient_image || "PatientDefault.jpg"}`}
             alt="Patient"
+            className="admin_patient_image"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = "http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg";
             }}
-            style={{ width: "100px", height: "100px", borderRadius: "50%", marginRight: "20px" }}
           />
-          <div>
+          <div className="admin_patient_name">
             <h3>{patientInfo.first_name} {patientInfo.last_name}</h3>
           </div>
         </div>
       )}
 
-      <div style={{ marginBottom: "20px" }}>
-        <label htmlFor="startDate">Start Date: </label>
-        <input
-          type="date"
-          id="startDate"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
-        <label htmlFor="endDate" style={{ marginLeft: "10px" }}>End Date: </label>
-        <input
-          type="date"
-          id="endDate"
-          value={endDate}
-          onChange={(e) => setEndDate(e.target.value)}
-        />
+      <div className="admin_patient_filters">
+        <label htmlFor="startDate">Start Date:</label>
+        <input type="date" id="startDate" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+        <label htmlFor="endDate">End Date:</label>
+        <input type="date" id="endDate" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
       </div>
 
       {selectedRecord && (
@@ -112,12 +104,10 @@ function ImmunizationTable() {
         />
       )}
 
-            {/* Add Modal Button */}
-            <button onClick={() => setShowModal(true)} style={{ marginBottom: "15px" }}>
+      <button onClick={() => setShowModal(true)} className="admin_patient_add_button">
         Add New Record
       </button>
 
-      {/* Add Modal */}
       {showModal && (
         <AddImmunizationModal
           patientId={patientId}
@@ -126,27 +116,39 @@ function ImmunizationTable() {
         />
       )}
 
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>Immunization Name</th>
-            <th>Date Administered</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {immunizations.map((record, index) => (
-            <tr key={index}>
-              <td>{record.immu_name}</td>
-              <td>{record.date_administered}</td>
-              <td>
-                <button onClick={() => handleEdit(record.immu_id)}>Edit</button>
-                <button onClick={() => handleDelete(record.immu_id)} style={{ marginLeft: "8px" }}>Delete</button>
-              </td>
+      <div className="admin_patient_table_wrapper">
+        <table className="admin_patient_table">
+          <thead>
+            <tr>
+              <th>Immunization Name</th>
+              <th>Date Administered</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {immunizations.map((record, index) => (
+              <tr key={index}>
+                <td>{record.immu_name}</td>
+                <td>{record.date_administered}</td>
+                <td>
+                  <button
+                    onClick={() => handleEdit(record.immu_id)}
+                    className="admin_patient_action_button edit"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(record.immu_id)}
+                    className="admin_patient_action_button delete"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

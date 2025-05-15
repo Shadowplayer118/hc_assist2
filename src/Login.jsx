@@ -10,6 +10,21 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+      useEffect(() => {
+      const sendAlert = async () => {
+        try {
+          const response = await axios.get('http://localhost/hc_assist2/src/zbackend_folder/notify_expired.php');
+          setResponseMsg(response.data.message || 'Email sent.');
+        } catch (error) {
+          setResponseMsg('Failed to send alert: ' + (error.response?.data?.message || error.message));
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      sendAlert();
+    }, []);
+
   // 🔔 Notify staff if medicines are expiring within 7 days
   useEffect(() => {
     const notifyExpiringMeds = async () => {
@@ -50,7 +65,7 @@ function Login() {
             navigate("/staff_folder/staff");
             break;
           case "midwife":
-            navigate("/midwife_folder/midwife");
+            navigate("/staff_folder/staff");
             break;
           case "patient":
             navigate("/patient_folder/patient");

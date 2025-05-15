@@ -59,8 +59,7 @@ while ($assign = $assignResult->fetch_assoc()) {
 }
 
 // ✅ 3. Fetch data to return for a specific staff_id
-$data = json_decode(file_get_contents("php://input"), true);
-$staff_id = isset($data['staff_id']) ? $data['staff_id'] : '';
+$staff_id = isset($_GET['staff_id']) ? $_GET['staff_id'] : '';
 
 if (empty($staff_id)) {
     echo json_encode([

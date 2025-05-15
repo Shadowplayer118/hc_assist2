@@ -21,9 +21,25 @@ function MedTable() {
     categories: [],
   });
 
+
+    useEffect(() => {
+    const sendAlert = async () => {
+      try {
+        const response = await axios.get('http://localhost/hc_assist2/src/zbackend_folder/notify_expired.php');
+        setResponseMsg(response.data.message || 'Email sent.');
+      } catch (error) {
+        setResponseMsg('Failed to send alert: ' + (error.response?.data?.message || error.message));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    sendAlert();
+  }, [meds]);
+
   useEffect(() => {
     fetchMeds({ item_name: itemName, brand, category });
-  }, [itemName, brand, category]);
+  }, [itemName, brand, category, meds]);
 
   const fetchMeds = async (filters = {}) => {
     try {

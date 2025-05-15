@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { FaEdit, FaTrash, FaEye } from "react-icons/fa"; // Import the icons from react-icons
+import StaffHeader from "./AAA_staff_header";
 import AddPatientModal from './staff_modals/add_patient_modal';
 import EditPatientModal from "./staff_modals/edit_patient_modal";
-import StaffHeader from "./AAA_staff_header";
+import './Admin_CSS/StaffTable.css';
+
 
 function PatientTableStaff() {
   const [patients, setPatients] = useState([]);
@@ -13,7 +15,7 @@ function PatientTableStaff() {
   const [purok, setPurok] = useState("");
   const [household, setHousehold] = useState("");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [selectedPatient, setSelectedPatient] = useState(null); // NEW: to hold data for Edit modal
+  const [selectedPatient, setSelectedPatient] = useState(null);
 
   const [filterOptions, setFilterOptions] = useState({
     blood_types: [],
@@ -31,8 +33,7 @@ function PatientTableStaff() {
       household,
     };
     fetchPatients(filters);
-  }, [name, bloodType, age, purok, household, patients]);
-  
+  }, [name, bloodType, age, purok, household]);
 
   const fetchPatients = async (filters = {}) => {
     try {
@@ -47,30 +48,28 @@ function PatientTableStaff() {
   const handleEdit = (patientId) => {
     const patientToEdit = patients.find(p => p.patient_id === patientId);
     if (patientToEdit) {
-      setSelectedPatient(patientToEdit); // Open modal with selected patient's data
+      setSelectedPatient(patientToEdit);
     }
   };
-  
+
   const handleCloseEditModal = () => {
     setSelectedPatient(null);
     fetchPatients(); // Refresh after edit
   };
 
   const handleDelete = async (patientId) => {
-
     const confirmed = window.confirm("Are you sure you want to delete this patient?");
     if (!confirmed) return;
 
-
     try {
-      const user = JSON.parse(localStorage.getItem("user"));  // Parse the user object
-      const staffId = user ? user.staff_id : ""; // wherever you're storing the logged-in staff
+      const user = JSON.parse(localStorage.getItem("user"));
+      const staffId = user ? user.staff_id : "";
       await axios.post("http://localhost/hc_assist2/src/zbackend_folder/delete_patients.php", {
         patient_id: patientId,
         staff_id: staffId
       });
       alert("Patient deleted.");
-      // refresh list here
+      fetchPatients(); // Refresh list after deletion
     } catch (err) {
       console.error("Delete failed:", err);
       alert("Failed to delete patient.");
@@ -78,15 +77,11 @@ function PatientTableStaff() {
   };
 
   return (
-    <div>
+    <div className="staff-container">
+      <StaffHeader />
 
-<StaffHeader />
-      <h2>Patient List</h2>
-
-      <button onClick={() => setIsAddModalOpen(true)}>Add New Patient</button>
-      {isAddModalOpen && (
-        <AddPatientModal onClose={() => setIsAddModalOpen(false)} />
-      )}
+      <button className="add-button" onClick={() => setIsAddModalOpen(true)}>Add New Patient</button>
+      {isAddModalOpen && <AddPatientModal onClose={() => setIsAddModalOpen(false)} />}
 
       {selectedPatient && (
         <EditPatientModal
@@ -95,9 +90,9 @@ function PatientTableStaff() {
         />
       )}
 
-      {/* Filters */}
       <div style={{ marginBottom: "20px" }}>
         <input
+          className="search-input"
           type="text"
           placeholder="Search by Name"
           value={name}
@@ -105,62 +100,77 @@ function PatientTableStaff() {
         />
       </div>
 
-      {/* Table */}
-      <table border="1" cellPadding="8">
-        <thead>
-          <tr>
-            <th>Full Name</th>
-            <th>
-              <select value={purok} onChange={(e) => setPurok(e.target.value)}>
-                <option value="">Purok</option>
-                {filterOptions.puroks.map((val) => (
-                  <option key={val} value={val}>{val}</option>
-                ))}
-              </select>
-            </th>
-            <th>
-              <select value={household} onChange={(e) => setHousehold(e.target.value)}>
-                <option value="">Household</option>
-                {filterOptions.households.map((val) => (
-                  <option key={val} value={val}>{val}</option>
-                ))}
-              </select>
-            </th>
-            <th>
-              <select value={age} onChange={(e) => setAge(e.target.value)}>
-                <option value="">Age</option>
-                {filterOptions.ages.map((val) => (
-                  <option key={val} value={val}>{val}</option>
-                ))}
-              </select>
-            </th>
-            <th>
-              <select value={bloodType} onChange={(e) => setBloodType(e.target.value)}>
-                <option value="">Blood Type</option>
-                {filterOptions.blood_types.map((val) => (
-                  <option key={val} value={val}>{val}</option>
-                ))}
-              </select>
-            </th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {patients.map((patient) => (
-            <tr key={patient.patient_id}>
-              <td>{patient.first_name + ' ' + patient.last_name}</td>
-              <td>{patient.purok}</td>
-              <td>{patient.household}</td>
-              <td>{patient.age}</td>
-              <td>{patient.blood_type}</td>
-              <td>
-                <button onClick={() => handleEdit(patient.patient_id)}>Edit</button>
-                <button onClick={() => handleDelete(patient.patient_id)} style={{ marginLeft: "8px" }}>Delete</button>
-              </td>
+      <div className="table-wrapper">
+        <table className="staff-table">
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>
+                <select value={purok} onChange={(e) => setPurok(e.target.value)}>
+                  <option value="">Purok</option>
+                  {filterOptions.puroks.map((val) => (
+                    <option key={val} value={val}>{val}</option>
+                  ))}
+                </select>
+              </th>
+              <th>
+                <select value={household} onChange={(e) => setHousehold(e.target.value)}>
+                  <option value="">Household</option>
+                  {filterOptions.households.map((val) => (
+                    <option key={val} value={val}>{val}</option>
+                  ))}
+                </select>
+              </th>
+              <th>
+                <select value={age} onChange={(e) => setAge(e.target.value)}>
+                  <option value="">Age</option>
+                  {filterOptions.ages.map((val) => (
+                    <option key={val} value={val}>{val}</option>
+                  ))}
+                </select>
+              </th>
+              <th>
+                <select value={bloodType} onChange={(e) => setBloodType(e.target.value)}>
+                  <option value="">Blood Type</option>
+                  {filterOptions.blood_types.map((val) => (
+                    <option key={val} value={val}>{val}</option>
+                  ))}
+                </select>
+              </th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {patients.map((patient) => (
+              <tr key={patient.patient_id}>
+                <td>{patient.first_name + ' ' + patient.last_name}</td>
+                <td>{patient.purok}</td>
+                <td>{patient.household}</td>
+                <td>{patient.age}</td>
+                <td>{patient.blood_type}</td>
+                <td>
+                  {/* Edit Button with FaEdit Icon */}
+                  <button className="icon-button edit-button" onClick={() => handleEdit(patient.patient_id)}>
+                    <FaEdit />
+                  </button>
+
+                  {/* Delete Button with FaTrash Icon */}
+                  <button className="icon-button delete-button" onClick={() => handleDelete(patient.patient_id)} style={{ marginLeft: "8px" }}>
+                    <FaTrash />
+                  </button>
+
+                  {/* View Button with FaEye Icon */}
+                  <a href={`/staff_folder/medical_record_table/${patient.patient_id}`} target="_blank" rel="noopener noreferrer">
+                    <button className="icon-button view-button" style={{ marginLeft: "8px" }}>
+                      <FaEye />
+                    </button>
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

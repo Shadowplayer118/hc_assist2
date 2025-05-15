@@ -1,0 +1,470 @@
+/* Improved Admin Patient CSS */
+
+/* Variables for consistency */
+:root {
+  --primary-color: #3498db;
+  --success-color: #2ecc71;
+  --danger-color: #e74c3c;
+  --text-color: #2c3e50;
+  --light-text: #7f8c8d;
+  --border-color: #e9ecef;
+  --light-bg: #f8f9fa;
+  --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+  --border-radius: 8px;
+}
+
+/* Container with improved spacing */
+.admin_patient_container {
+
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color);
+}
+
+/* Patient Info Section - more polished design */
+.admin_patient_info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 20px;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  height: 80px;
+}
+
+.admin_patient_image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 24px;
+  object-fit: cover;
+  border: 3px solid white;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+}
+
+.admin_patient_image:hover {
+  transform: scale(1.05);
+}
+
+/* Patient Name and details */
+.admin_patient_name {
+  flex: 1;
+}
+
+.admin_patient_name h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  color: var(--text-color);
+}
+
+.admin_patient_details {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.patient_detail_item {
+  display: flex;
+  flex-direction: column;
+}
+
+.detail_label {
+  font-size: 0.8rem;
+  color: var(--light-text);
+  margin-bottom: 4px;
+}
+
+.detail_value {
+  font-weight: 500;
+}
+
+/* Date Filters - improved layout and styling */
+.admin_patient_filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: var(--light-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+        height: 50px;
+}
+
+.filter_group {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  margin-bottom: 8px;
+}
+
+.admin_patient_filters label {
+  margin-right: 10px;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.admin_patient_filters input[type="date"] {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-family: inherit;
+  transition: var(--transition);
+}
+
+.admin_patient_filters input[type="date"]:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.filter_button {
+  padding: 8px 16px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: var(--transition);
+  margin-left: auto;
+}
+
+.filter_button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+/* Action Buttons Row */
+.admin_patient_actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Add Record Button - more modern styling */
+.admin_patient_add_button {
+  padding: 10px 18px;
+  background-color: var(--success-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
+  box-shadow: 0 3px 6px rgba(46, 204, 113, 0.2);
+  margin-bottom: 10px;
+}
+
+.admin_patient_add_button:hover {
+  background-color: #27ae60;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(46, 204, 113, 0.3);
+}
+
+.admin_patient_add_button:active {
+  transform: translateY(0);
+}
+
+.admin_patient_add_button svg {
+  margin-right: 8px;
+}
+
+/* Records counter */
+.records_count {
+  color: var(--light-text);
+  font-size: 0.9rem;
+}
+
+/* Table Container */
+.table_container {
+  overflow-x: auto;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  border-radius: 10px;
+  max-height: 10px;
+
+overflow-y: scroll;
+}
+
+/* Table Styles - enhanced for better readability */
+.admin_patient_table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 600px;
+background-color: white;
+  height: 10px;
+
+}
+
+.admin_patient_table th,
+.admin_patient_table td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.admin_patient_table th {
+  background-color: var(--light-bg);
+  font-weight: 600;
+  color: var(--text-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.admin_patient_table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin_patient_table tr:hover {
+  background-color: rgba(52, 152, 219, 0.05);
+}
+
+/* Cell types */
+.cell-id {
+  width: 60px;
+  color: var(--light-text);
+  font-size: 0.9rem;
+}
+
+.cell-date {
+  white-space: nowrap;
+}
+
+.cell-status {
+  width: 100px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.status-active {
+  background-color: rgba(46, 204, 113, 0.15);
+  color: #27ae60;
+}
+
+.status-inactive {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: #c0392b;
+}
+
+/* Actions column */
+.cell-actions {
+  width: 140px;
+  white-space: nowrap;
+}
+
+/* Action Buttons */
+.admin_patient_action_buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.admin_patient_action_button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+
+
+.admin_patient_action_button.edit:hover {
+  background-color: #2980b9;
+}
+
+
+
+.admin_patient_action_button.delete:hover {
+  background-color: #c0392b;
+}
+
+.admin_patient_action_button.view {
+  background-color: #f9f9f9;
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+.admin_patient_action_button.view:hover {
+  background-color: #f1f1f1;
+}
+
+/* Empty state */
+.empty_records {
+  padding: 40px;
+  text-align: center;
+}
+
+.empty_records p {
+  color: var(--light-text);
+  margin-bottom: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 168px) {
+  .admin_patient_info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .admin_patient_image {
+    margin-right: 0;
+    margin-bottom: 16px;
+  }
+  
+  .admin_patient_filters {
+    flex-direction: column;
+    align-items: flex-start;
+  
+  }
+  
+  .filter_group {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+  
+  .admin_patient_filters input[type="date"] {
+    width: 100%;
+
+  }
+  
+  .filter_button {
+    margin-top: 12px;
+    width: 100%;
+  }
+  
+  .admin_patient_actions {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .admin_patient_add_button {
+    width: 100%;
+    justify-content: center;
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.admin_patient_container {
+  padding: 20px;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.admin_patient_title {
+  margin-bottom: 15px;
+}
+
+.admin_patient_info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.admin_patient_image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 20px;
+  object-fit: cover;
+}
+
+.admin_patient_name h3 {
+  margin: 0;
+}
+
+.admin_patient_filters {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin_patient_add_button {
+  margin-bottom: 15px;
+  padding: 8px 16px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.admin_patient_add_button:hover {
+  background-color: #005fa3;
+}
+
+.admin_patient_table_wrapper {
+  max-width: 100%;
+  overflow-x: auto;
+  max-height: 40vh;
+  overflow-y: scroll;
+  border-radius: 10px;
+}
+
+.admin_patient_table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.admin_patient_table th,
+.admin_patient_table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.admin_patient_table th {
+  background-color: #f4f4f4;
+}
+
+.admin_patient_action_button {
+  padding: 4px 10px;
+  margin: 0 2px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.admin_patient_action_button.edit {
+  background-color: #4caf50;
+  color: white;
+}
+
+.admin_patient_action_button.delete {
+  background-color: #f44336;
+  color: white;
+}

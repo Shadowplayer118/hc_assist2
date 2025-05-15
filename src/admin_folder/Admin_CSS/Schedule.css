@@ -1,0 +1,94 @@
+/* PatientRecords.css */
+
+/* Container for the Schedule Table */
+.admin_patient_sched-container {
+  padding: 20px;
+}
+
+/* Heading */
+.admin_patient_sched-heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Patient Info */
+.admin_patient_sched-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.admin_patient_sched-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+/* Date Filter */
+.admin_patient_sched-date-filter {
+  margin-bottom: 20px;
+}
+
+.admin_patient_sched-label {
+  margin-right: 10px;
+}
+
+.admin_patient_sched-input {
+  margin-right: 10px;
+}
+
+/* Add Record Button */
+.admin_patient_sched-btn {
+  padding: 8px 15px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.admin_patient_sched-btn:hover {
+  background-color: #45a049;
+}
+
+/* Schedule Table */
+.admin_patient_sched-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin_patient_sched-table th, .admin_patient_sched-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.admin_patient_sched-filter {
+  width: 100%;
+  padding: 5px;
+}
+
+/* Edit/Delete Buttons */
+.admin_patient_sched-edit-btn, .admin_patient_sched-delete-btn {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.admin_patient_sched-edit-btn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.admin_patient_sched-delete-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.admin_patient_sched-edit-btn:hover {
+  background-color: #45a049;
+}
+
+.admin_patient_sched-delete-btn:hover {
+  background-color: #e32b2b;
+}

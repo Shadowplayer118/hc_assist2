@@ -1,0 +1,92 @@
+/* WorkflowAssignBoard.css */
+
+.workflow-board-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  padding:0px;
+    margin-bottom: 50vh;
+    width: 950px;
+    
+}
+
+.workflow-header {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.workflow-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.workflow-link:hover {
+  text-decoration: underline;
+}
+
+.workflow-message {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  color: white;
+}
+
+.workflow-message.success {
+  background-color: #28a745;
+}
+
+.workflow-message.error {
+  background-color: #dc3545;
+}
+
+.workflow-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-height: 35vw;
+  overflow-y: scroll;
+}
+
+.workflow-card {
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  padding: 16px;
+  width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+  text-align: left;
+  
+}
+
+.workflow-card:hover {
+  transform: translateY(-4px);
+}
+
+.workflow-card h3 {
+  margin-top: 0;
+}
+
+.workflow-card p {
+  margin: 4px 0;
+}
+
+.workflow-card button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.workflow-view-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.workflow-delete-button {
+  background-color: #dc3545;
+  color: white;
+  margin-left: 10px;
+}

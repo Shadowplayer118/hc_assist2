@@ -40,7 +40,7 @@ if (isset($_FILES['staff_image']) && $_FILES['staff_image']['error'] === UPLOAD_
 $fields = [
     'staff_id', 'first_name', 'mid_name', 'last_name',
     'bdate', 'gender', 'purok_assigned', 'civil_status',
-    'age', 'contact', 'position', 'password'
+    'age', 'contact', 'position', 'password', 'gmail' // Added gmail
 ];
 
 $data = [];
@@ -53,11 +53,16 @@ $data['first_name'] = ucfirst(strtolower($data['first_name']));
 $data['mid_name'] = ucfirst(strtolower($data['mid_name']));
 $data['last_name'] = ucfirst(strtolower($data['last_name']));
 
-// Prepare password update (without hashing)
+// Prepare optional updates
 $passwordUpdate = '';
-if (!empty($data['password'])) {
-    // If password is provided, update it directly without hashing
+if (isset($_POST['password']) && trim($_POST['password']) !== '') {
+    $data['password'] = $conn->real_escape_string($_POST['password']);
     $passwordUpdate = ", password = '{$data['password']}'";
+}
+
+$imageUpdate = '';
+if (!is_null($imageName)) {
+    $imageUpdate = ", staff_image = '{$imageName}'";
 }
 
 // Update staff
@@ -72,13 +77,11 @@ $sql = "UPDATE staff SET
     age = '{$data['age']}',
     contact = '{$data['contact']}',
     position = '{$data['position']}',
-    staff_image = '{$imageName}', 
+    gmail = '{$data['gmail']}',
     last_updated = NOW()";
 
-// Append password update only if provided
-if ($passwordUpdate) {
-    $sql .= $passwordUpdate;
-}
+$sql .= $imageUpdate;
+$sql .= $passwordUpdate;
 
 $sql .= " WHERE staff_id = '{$data['staff_id']}'";
 

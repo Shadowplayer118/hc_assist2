@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import RecordsHeader from "./AAA_records_header";
 import AddReferralModal from "./admin_modals/add_referral_modal";
 import EditReferralModal from "./admin_modals/edit_referral_modal";
+import "./Admin_CSS/Referral.css";
 
 function ReferralTable() {
   const { patientId } = useParams();
@@ -67,36 +68,36 @@ function ReferralTable() {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="admin_patient_referral_container">
       <RecordsHeader patientId={patientId} />
       <h2>Referral Records</h2>
 
       {patientInfo && (
-        <div style={{ display: "flex", alignItems: "center", marginBottom: "20px" }}>
+        <div className="admin_patient_referral_header">
           <img
+            className="admin_patient_referral_image"
             src={`http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${patientInfo.patient_image || "PatientDefault.jpg"}`}
             alt="Patient"
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = "http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg";
             }}
-            style={{ width: "100px", height: "100px", borderRadius: "50%", marginRight: "20px" }}
           />
           <div>
-            <h3>{patientInfo.first_name} {patientInfo.last_name}</h3>
+            <h3 className="admin_patient_referral_patient_name">{patientInfo.first_name} {patientInfo.last_name}</h3>
           </div>
         </div>
       )}
 
-      <div style={{ marginBottom: "20px" }}>
-        <label htmlFor="startDate">Start Date: </label>
+      <div className="admin_patient_referral_filter_section">
+        <label className="admin_patient_referral_filter_label" htmlFor="startDate">Start Date: </label>
         <input
           type="date"
           id="startDate"
           value={startDate}
           onChange={(e) => setStartDate(e.target.value)}
         />
-        <label htmlFor="endDate" style={{ marginLeft: "10px" }}>End Date: </label>
+        <label className="admin_patient_referral_filter_label" htmlFor="endDate">End Date: </label>
         <input
           type="date"
           id="endDate"
@@ -106,8 +107,8 @@ function ReferralTable() {
       </div>
 
       {/* Filter for approval status */}
-      <div style={{ marginBottom: "20px" }}>
-        <label htmlFor="approvalStatus">Filter by Approval Status: </label>
+      <div className="admin_patient_referral_filter_section">
+        <label className="admin_patient_referral_filter_label" htmlFor="approvalStatus">Filter by Approval Status: </label>
         <select
           id="approvalStatus"
           value={approvalStatusFilter}
@@ -126,7 +127,10 @@ function ReferralTable() {
         />
       )}
 
-      <button onClick={() => setShowModal(true)} style={{ marginBottom: "15px" }}>
+      <button
+        className="admin_patient_referral_add_button"
+        onClick={() => setShowModal(true)}
+      >
         Add New Referral
       </button>
 
@@ -138,14 +142,12 @@ function ReferralTable() {
         />
       )}
 
-      <table border="1" cellPadding="8">
+      <table className="admin_patient_referral_table">
         <thead>
           <tr>
             <th>Description</th>
             <th>Referral Date</th>
-            <th>
-              Approval Status
-            </th>
+            <th>Approval Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -155,9 +157,9 @@ function ReferralTable() {
               <td>{record.description}</td>
               <td>{record.referral_date}</td>
               <td>{record.approval_status}</td>
-              <td>
-                <button onClick={() => handleEdit(record.referral_id)}>Edit</button>
-                <button onClick={() => handleDelete(record.referral_id)} style={{ marginLeft: "8px" }}>Delete</button>
+              <td className="admin_patient_referral_actions">
+                <button className="admin_patient_referral_edit_button" onClick={() => handleEdit(record.referral_id)}>Edit</button>
+                <button className="admin_patient_referral_delete_button" onClick={() => handleDelete(record.referral_id)}>Delete</button>
               </td>
             </tr>
           ))}

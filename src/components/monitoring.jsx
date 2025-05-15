@@ -71,11 +71,11 @@ const Monitoring = () => {
                 <div className="schedule-name">
                   {sched.first_name} {sched.last_name}
                 </div>
-                  <div className="schedule-info">
-                    <div className="schedule-text">
+                  <div className="schedule-info-monitoring">
+                    <div className="schedule-text-monitoring">
                     <span className="text-bold">{sched.sched_type}</span>
                     </div>
-                    <div className="schedule-text">
+                    <div className="schedule-text-monitoring">
                     <span className="text-bold">{sched.activity}</span>
                     </div>
                   </div>

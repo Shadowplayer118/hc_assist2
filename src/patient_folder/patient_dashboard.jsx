@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import PatientHeader from './AAA_patient_header';
 import { Link, useNavigate } from "react-router-dom";
+import './Admin_CSS/Dashboard.css';
 
 const Patient = () => {
   const [patient, setPatient] = useState(null);
@@ -74,13 +75,23 @@ const Patient = () => {
     navigate("/");
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loader"></div>
+        <p>Loading patient information...</p>
+      </div>
+    );
+  }
 
   if (!hasAccepted) {
     return (
       <div className="full-screen-consent">
         <div className="consent-box">
           <h2>Confidentiality Agreement</h2>
+          <div className="consent-icon">
+            <i className="fas fa-shield-alt"></i>
+          </div>
           <p>
             Before accessing your health records, you must acknowledge that you
             understand the importance of confidentiality and the laws protecting
@@ -91,8 +102,8 @@ const Patient = () => {
             responsibly?
           </p>
           <div className="consent-actions">
-            <button onClick={handleAccept}>I Accept</button>
-            <button onClick={handleDecline}>I Do Not Accept</button>
+            <button className="btn-accept" onClick={handleAccept}>I Accept</button>
+            <button className="btn-decline" onClick={handleDecline}>I Do Not Accept</button>
           </div>
         </div>
       </div>
@@ -100,37 +111,104 @@ const Patient = () => {
   }
 
   return (
-    <div className="staff-container">
+    <div className="patient-dashboard">
       <PatientHeader />
-      <li><Link to="/patient_folder/medical_record_table"> Medical Records</Link></li>
-      <h1>My Profile & Medical Info</h1>
+      
+      <div className="nav-section">
+        <Link to="/patient_folder/medical_record_table" className="records-link">
+          <i className="fas fa-file-medical"></i> View All Medical Records
+        </Link>
+        
+      </div>
 
       {!patient ? (
-        <p>Loading patient data...</p>
+        <div className="loading-card">
+          <p>Loading patient data...</p>
+        </div>
       ) : (
-        <>
-          <div className="profile-card">
-            <h2>Personal Details</h2>
-            <p><strong>Full Name:</strong> {patient.first_name} {patient.last_name}</p>
-            <p><strong>Age:</strong> {patient.age}</p>
-            <p><strong>Gender:</strong> {patient.gender}</p>
-            <p><strong>Purok:</strong> {patient.purok}</p>
-            <p><strong>Blood Type:</strong> {patient.blood_type}</p>
-            <p><strong>Household:</strong> {patient.household}</p>
-          </div>
+        <div className="patient-content">
 
-          {latestRecord && (
-            <div className="profile-card" style={{ marginTop: "30px" }}>
-              <h2>Latest Medical Record</h2>
-              <p><strong>Date Recorded:</strong> {latestRecord.date_recorded}</p>
-              <p><strong>Height:</strong> {latestRecord.height} cm</p>
-              <p><strong>Weight:</strong> {latestRecord.weight} kg</p>
-              <p><strong>Blood Pressure:</strong> {latestRecord.bp}</p>
-              <p><strong>Temperature:</strong> {latestRecord.temperature} °C</p>
-              <p><strong>Remarks:</strong> {latestRecord.remarks}</p>
+          
+          <div className="profile-container">
+            <div className="profile-card">
+              <div className="profile-header">
+                <h2>Personal Information</h2>
+              </div>
+              
+              <div className="profile-body">
+                <div className="profile-image">
+                  <img
+                    src={`http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${patient.patient_image}`}
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg";
+                    }}
+                    alt="Patient"
+                    className="patient-photo"
+                  />
+                </div>
+                
+                <div className="profile-details">
+                  <div className="detail-item">
+                    <span className="detail-label">Full Name:</span>
+                    <span className="detail-value">{patient.first_name} {patient.last_name}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Age:</span>
+                    <span className="detail-value">{patient.age}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Gender:</span>
+                    <span className="detail-value">{patient.gender}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Purok:</span>
+                    <span className="detail-value">{patient.purok}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Blood Type:</span>
+                    <span className="detail-value">{patient.blood_type}</span>
+                  </div>
+                  <div className="detail-item">
+                    <span className="detail-label">Household:</span>
+                    <span className="detail-value">{patient.household}</span>
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
-        </>
+
+            {latestRecord && (
+              <div className="medical-card">
+                <div className="medical-header">
+                  <h2>Latest Medical Record</h2>
+                  <span className="record-date">{latestRecord.date_recorded}</span>
+                </div>
+                
+                <div className="medical-body">
+                  <div className="medical-metrics">
+                    <div className="metric-item">
+                      <div className="metric-value">{latestRecord.height}</div>
+                      <div className="metric-label">Height (cm)</div>
+                    </div>
+                    <div className="metric-item">
+                      <div className="metric-value">{latestRecord.weight}</div>
+                      <div className="metric-label">Weight (kg)</div>
+                    </div>
+                    <div className="metric-item">
+                      <div className="metric-value">{latestRecord.blood_pressure}</div>
+                      <div className="metric-label">Blood Pressure</div>
+                    </div>
+                    <div className="metric-item">
+                      <div className="metric-value">{latestRecord.temperature}</div>
+                      <div className="metric-label">Temp (°C)</div>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       )}
     </div>
   );

@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import "./Admin_CSS/Header.css";
 
+
 function PatientHeader() {
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -23,10 +24,11 @@ function PatientHeader() {
           <li>HC-Assist</li>
           {user ? (
             <>
-              <li><Link to="/patient_folder/patient"><FaTachometerAlt /> Dashboard</Link></li>
-              <li><Link to="/patient_folder/available_staff"><FaUserMd /> Staff</Link></li>
-              <li><Link to="/patient_folder/available_meds"><FaPills /> Medicine</Link></li>
-              <li><Link to="/patient_folder/calendar"><FaCalendarAlt /> Calendar</Link></li>
+              <li><Link to="/patient_folder/patient"><FaTachometerAlt />Dashboard</Link></li>
+              <li><Link to="/patient_folder/available_staff"><FaUserMd />Staff</Link></li>
+              <li><Link to="/patient_folder/available_meds"><FaPills />Medicine</Link></li>
+              <li><Link to="/patient_folder/calendar"><FaCalendarAlt />Calendar</Link></li>
+              
               <li>
                 <button
                   className="logout-button"

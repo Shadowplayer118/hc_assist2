@@ -3,23 +3,23 @@ import axios from "axios";
 import AdminHeader from './AAA_admin_header';
 import { Link } from "react-router-dom";
 import ViewAssignedWorkflowModal from "./admin_modals/view_assigned_workflow";
+import './Admin_CSS/AssignedWorkflow.css';  // Import the CSS
 
 function WorkflowAssignBoard() {
   const [assignedWorkflows, setAssignedWorkflows] = useState([]);
   const [selectedWorkflow, setSelectedWorkflow] = useState(null);
-  const [loading, setLoading] = useState(false);  // Loading state
-  const [message, setMessage] = useState(null);    // Message for success/error
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
 
-  const STAFF_ID = 1; // Replace with the actual logged-in admin ID
+  const STAFF_ID = 1;
 
   useEffect(() => {
     fetchAssignedWorkflows();
   }, []);
 
-  // Fetch workflows assigned to staff
   const fetchAssignedWorkflows = async () => {
     setLoading(true);
-    setMessage(null);  // Clear previous message
+    setMessage(null);
     try {
       const response = await axios.get("http://localhost/hc_assist2/src/zbackend_folder/load_workflow_assign.php");
       if (response.data.success && Array.isArray(response.data.assignedWorkflows)) {
@@ -42,76 +42,57 @@ function WorkflowAssignBoard() {
 
   const handleCloseViewModal = () => {
     setSelectedWorkflow(null);
-    fetchAssignedWorkflows(); // Refresh after viewing
+    fetchAssignedWorkflows();
   };
 
-  // Soft delete workflow
-const deleteAssignedWorkflow = async (workflow) => {
-  const user = JSON.parse(localStorage.getItem("user"));  // Parse the user object
-  const staffId = user ? user.staff_id : "";
+  const deleteAssignedWorkflow = async (workflow) => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const staffId = user ? user.staff_id : "";
 
-  // Confirm the delete action
-  if (window.confirm(`Are you sure you want to delete the assigned workflow "${workflow.workflow_title}"?`)) {
-    const payload = {
-      assign_id: workflow.assign_id, 
-      staff_id: staffId, // Only pass the assign_id
-    };
+    if (window.confirm(`Are you sure you want to delete the assigned workflow "${workflow.workflow_title}"?`)) {
+      const payload = {
+        assign_id: workflow.assign_id,
+        staff_id: staffId,
+      };
 
-
-      const response = await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/delete_assign_workflow.php", // Updated PHP file
-        payload
-      );
-
-
-  }
-};
-
-
+      try {
+        const response = await axios.post(
+          "http://localhost/hc_assist2/src/zbackend_folder/delete_assign_workflow.php",
+          payload
+        );
+        fetchAssignedWorkflows();
+      } catch (err) {
+        console.error("Failed to delete workflow:", err);
+      }
+    }
+  };
 
   return (
-    <div>
+    <div className="workflow-board-container">
       <AdminHeader />
-      <h2>Assigned Workflows</h2>
+      <h2 className="workflow-header">Assigned Workflows</h2>
 
-      <Link to="/admin_folder/workflow_board">Workflow List</Link>
+      <Link to="/admin_folder/workflow_board" className="workflow-link">Workflow List</Link>
 
       {message && (
-        <div style={{
-          padding: '10px',
-          margin: '10px 0',
-          backgroundColor: message.type === "success" ? 'green' : 'red',
-          color: 'white',
-          borderRadius: '5px'
-        }}>
+        <div className={`workflow-message ${message.type}`}>
           {message.text}
         </div>
       )}
 
       {loading ? <p>Loading...</p> : (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+        <div className="workflow-cards">
           {Array.isArray(assignedWorkflows) && assignedWorkflows.length > 0 ? (
             assignedWorkflows.map(workflow => (
-              <div
-                key={workflow.assign_id}
-                style={{
-                  border: '1px solid #ccc',
-                  padding: '16px',
-                  width: '300px',
-                  borderRadius: '8px',
-                  boxShadow: '2px 2px 6px rgba(0,0,0,0.1)'
-                }}
-              >
+              <div key={workflow.assign_id} className="workflow-card">
                 <h3>{workflow.workflow_title}</h3>
                 <p>{workflow.workflow_description}</p>
                 <p><strong>Assigned Staff:</strong> {workflow.staff_name}</p>
                 <p><strong>Position:</strong> {workflow.staff_position}</p>
                 <p><strong>Deadline:</strong> {workflow.deadline}</p>
                 <p><strong>Status:</strong> {workflow.status}</p>
-                <button onClick={() => handleViewWorkflow(workflow.assign_id)}>View</button>
-                <button onClick={() => deleteAssignedWorkflow(workflow)} style={{ marginLeft: "10px", color: "red" }}>
-                  Delete
-                </button>
+                <button className="workflow-view-button" onClick={() => handleViewWorkflow(workflow.assign_id)}>View</button>
+                <button className="workflow-delete-button" onClick={() => deleteAssignedWorkflow(workflow)}>Delete</button>
               </div>
             ))
           ) : (
@@ -120,7 +101,6 @@ const deleteAssignedWorkflow = async (workflow) => {
         </div>
       )}
 
-      {/* Show ViewAssignedWorkflowModal if selectedWorkflow is not null */}
       {selectedWorkflow && (
         <ViewAssignedWorkflowModal
           workflow={selectedWorkflow}
