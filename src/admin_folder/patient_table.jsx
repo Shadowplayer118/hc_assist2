@@ -37,7 +37,7 @@ function PatientTable() {
 
   const fetchPatients = async (filters = {}) => {
     try {
-      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/load_patients.php", filters);
+      const response = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_patients.php", filters);
       setPatients(response.data.patients);
       setFilterOptions(response.data.filters);
     } catch (err) {
@@ -64,7 +64,7 @@ function PatientTable() {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const staffId = user ? user.staff_id : "";
-      await axios.post("http://localhost/hc_assist2/src/zbackend_folder/delete_patients.php", {
+      await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/delete_patients.php", {
         patient_id: patientId,
         staff_id: staffId
       });

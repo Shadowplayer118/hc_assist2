@@ -24,7 +24,7 @@ function ExpiredStockViewer() {
     setError(null);
     try {
       const res = await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/load_expired_meds.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_expired_meds.php",
         { meds_id: id }
       );
       setExpiredMeds(res.data.expired_stocks || []);
@@ -42,7 +42,7 @@ function ExpiredStockViewer() {
     
     try {
       const res = await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/discard_expired_meds.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/discard_expired_meds.php",
         { meds_id: medsId }
       );
       alert(res.data.message);
@@ -62,7 +62,7 @@ function ExpiredStockViewer() {
   const handleConfirm = async () => {
     try {
       await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/discard_expired.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/discard_expired.php",
         {
           expired_id: selected.exp_id,
           discard_units: discardQty,

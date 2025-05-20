@@ -37,7 +37,7 @@ function DeletedBackupTable() {
 
   const fetchPatients = async (filters = {}) => {
     try {
-      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/load_backup_patient.php", filters);
+      const response = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_backup_patient.php", filters);
       setPatients(response.data.patients);
       setFilterOptions(response.data.filters);
     } catch (err) {
@@ -65,7 +65,7 @@ function DeletedBackupTable() {
       const user = JSON.parse(localStorage.getItem("user"));
       const staffId = user ? user.staff_id : "";
   
-      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/permanent_delete.php", {
+      const response = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/permanent_delete.php", {
         record_id: recordId,
         staff_id: staffId,
         target_table: targetTable
@@ -93,7 +93,7 @@ function DeletedBackupTable() {
       const user = JSON.parse(localStorage.getItem("user"));
       const staffId = user ? user.staff_id : "";
   
-      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/restore_deleted.php", {
+      const response = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/restore_deleted.php", {
         record_id: recordId,
         staff_id: staffId,
         target_table: targetTable

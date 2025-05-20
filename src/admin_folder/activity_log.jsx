@@ -29,7 +29,7 @@ function ActivityLogTable() {
 
   const fetchActivityLogs = async (filters = {}) => {
     try {
-      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/activity_log.php", filters);
+      const response = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/activity_log.php", filters);
       setActivityLogs(response.data.logs);
       setFilterOptions(response.data.filters);
     } catch (err) {
@@ -43,7 +43,7 @@ const deleteLog = async (auditId) => {
   if (!window.confirm("Are you sure you want to delete this log?")) return;
 
   try {
-    await axios.post("http://localhost/hc_assist2/src/zbackend_folder/delete_log.php", {
+    await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/delete_log.php", {
       audit_id: auditId,
     });
     fetchActivityLogs({ date: filterDate, user: filterUser, action: filterAction, target_table: filterTable });
@@ -56,7 +56,7 @@ const deleteFilteredLogs = async () => {
   if (!window.confirm("Are you sure you want to delete all filtered logs?")) return;
 
   try {
-    await axios.post("http://localhost/hc_assist2/src/zbackend_folder/delete_log.php", {
+    await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/delete_log.php", {
       date: filterDate,
       user: filterUser,
       action: filterAction,

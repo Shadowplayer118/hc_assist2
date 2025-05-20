@@ -13,7 +13,7 @@ function Login() {
       useEffect(() => {
       const sendAlert = async () => {
         try {
-          const response = await axios.get('http://localhost/hc_assist2/src/zbackend_folder/notify_expired.php');
+          const response = await axios.get('https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/notify_expired.php');
           setResponseMsg(response.data.message || 'Email sent.');
         } catch (error) {
           setResponseMsg('Failed to send alert: ' + (error.response?.data?.message || error.message));
@@ -29,7 +29,7 @@ function Login() {
   useEffect(() => {
     const notifyExpiringMeds = async () => {
       try {
-        await axios.get("http://localhost/hc_assist2/src/zbackend_folder/notify_expiring_meds.php");
+        await axios.get("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/notify_expiring_meds.php");
         console.log("Expiring meds notification checked.");
       } catch (error) {
         console.error("Failed to send expiring meds notification:", error);
@@ -45,7 +45,7 @@ function Login() {
     setError("");
 
     try {
-      const res = await axios.post("http://localhost/hc_assist2/src/login.php", {
+      const res = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/login.php", {
         username,
         passwordOrPhilhealth,
       });

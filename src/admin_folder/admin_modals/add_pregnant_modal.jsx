@@ -74,7 +74,7 @@ function AddPregnantModal({ onClose }) {
   const handleSubmit = async () => {
     try {
       await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/add_pregnant.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/add_pregnant.php",
         formData
       );
       alert("Pregnancy record added successfully!");

@@ -66,7 +66,7 @@ const handleSave = async () => {
       })),
     };
 
-    const response = await axios.put("http://localhost/hc_assist2/src/zbackend_folder/edit_workflow.php", payload);
+    const response = await axios.put("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/edit_workflow.php", payload);
 
     if (response.data?.message) {
       alert("Workflow updated successfully.");

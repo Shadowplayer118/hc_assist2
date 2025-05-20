@@ -18,8 +18,8 @@ function EditStaffModal({ onClose, staffData }) {
     gmail: staffData.gmail || "",
     staff_image: null,
     image_preview: staffData.staff_image
-      ? `http://localhost/hc_assist2/src/zbackend_folder/uploads/Staff_Images/${staffData.staff_image}`
-      : "http://localhost/hc_assist2/src/zbackend_folder/uploads/Staff_Images/StaffDefault.jpg",
+      ? `https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Staff_Images/${staffData.staff_image}`
+      : "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Staff_Images/StaffDefault.jpg",
   });
 
   useEffect(() => {
@@ -64,7 +64,7 @@ function EditStaffModal({ onClose, staffData }) {
         }
       });
 
-      await axios.post("http://localhost/hc_assist2/src/zbackend_folder/edit_staff.php", formDataToSubmit, {
+      await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/edit_staff.php", formDataToSubmit, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

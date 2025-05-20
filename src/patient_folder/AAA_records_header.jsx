@@ -19,7 +19,7 @@ function AdminHeader() {
   useEffect(() => {
     const fetchPatientGender = async () => {
       try {
-        const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/get_gender.php", {
+        const response = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/get_gender.php", {
           patient_id: patientId,
         });
 

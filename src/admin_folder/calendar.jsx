@@ -14,7 +14,7 @@ const Calendar = () => {
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
 
   useEffect(() => {
-    axios.get('http://localhost/hc_assist2/src/zbackend_folder/load_calendar.php')
+    axios.get('https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_calendar.php')
       .then(response => {
         setSchedules(response.data.schedules);
 
@@ -153,7 +153,7 @@ const Calendar = () => {
             <div key={schedule.sched_id} className="schedule-details">
               <div className="patient-image">
                 <img
-                  src={`http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${schedule.patient_image || 'PatientDefault.jpg'}`}
+                  src={`https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Patient_Images/${schedule.patient_image || 'PatientDefault.jpg'}`}
                   alt={`${schedule.first_name} ${schedule.last_name}`}
                 />
               </div>

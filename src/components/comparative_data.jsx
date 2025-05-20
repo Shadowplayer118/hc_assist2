@@ -22,7 +22,7 @@ const ComparativeData = () => {
   const fetchPatientData = async (category) => {
     try {
       const response = await axios.post(
-        'http://localhost/hc_assist2/src/zbackend_folder/load_comparative_data.php',
+        'https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_comparative_data.php',
         { category }
       );
       setPatientData(response.data);

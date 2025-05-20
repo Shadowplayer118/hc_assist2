@@ -22,7 +22,7 @@ function WorkflowBoard() {
 
   const fetchWorkflows = async () => {
     try {
-      const response = await axios.get("http://localhost/hc_assist2/src/zbackend_folder/load_workflow.php");
+      const response = await axios.get("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_workflow.php");
       setWorkflows(response.data.workflows);
     } catch (err) {
       console.error("Error fetching workflows:", err);
@@ -59,7 +59,7 @@ function WorkflowBoard() {
         };
 
         const response = await axios.post(
-          "http://localhost/hc_assist2/src/zbackend_folder/delete_workflow.php",
+          "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/delete_workflow.php",
           payload
         );
 

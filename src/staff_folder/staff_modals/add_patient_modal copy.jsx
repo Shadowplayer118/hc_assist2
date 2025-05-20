@@ -16,7 +16,7 @@ function AddPatientModal({ onClose }) {
     blood_type: "",
     household: "",
     patient_image: null,
-    image_preview: 'http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg', // For image preview URL
+    image_preview: 'https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg', // For image preview URL
     full_name: "", // Added full name
     staff_id: "",
   });
@@ -87,7 +87,7 @@ function AddPatientModal({ onClose }) {
         formDataToSubmit.append(key, formData[key]);
       });
 
-      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/add_patients.php", formDataToSubmit, {
+      const response = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/add_patients.php", formDataToSubmit, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

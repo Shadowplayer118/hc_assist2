@@ -41,7 +41,7 @@ function AddWorkflowModal({ onClose }) {
         staff_id: staffId,
       };
 
-      await axios.post("http://localhost/hc_assist2/src/zbackend_folder/add_workflow.php", payload);
+      await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/add_workflow.php", payload);
 
       alert("Workflow added successfully!");
       onClose();

@@ -45,7 +45,7 @@ function EditDiseaseModal({ onClose, diseaseData = null }) {
       });
 
       await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/edit_disease.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/edit_disease.php",
         formPayload,
         {
           headers: { "Content-Type": "multipart/form-data" },

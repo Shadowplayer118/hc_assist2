@@ -36,7 +36,7 @@ function EditPregnantModal({ onClose, pregnantData = null }) {
       if (pregnantData.pregnant_id) {
         axios
           .get(
-            `http://localhost/hc_assist2/src/zbackend_folder/get_trimesters.php?pregnant_id=${pregnantData.pregnant_id}`
+            `https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/get_trimesters.php?pregnant_id=${pregnantData.pregnant_id}`
           )
           .then((response) => {
             const schedules = response.data;
@@ -77,7 +77,7 @@ function EditPregnantModal({ onClose, pregnantData = null }) {
       });
 
       await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/edit_pregnant.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/edit_pregnant.php",
         payload,
         {
           headers: { "Content-Type": "multipart/form-data" },

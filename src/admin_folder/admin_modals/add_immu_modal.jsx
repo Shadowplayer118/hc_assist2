@@ -34,7 +34,7 @@ function AddImmunizationModal({ onClose }) {
   const handleSubmit = async () => {
     try {
       await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/add_immu.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/add_immu.php",
         formData
       );
       alert("Immunization record added successfully!");

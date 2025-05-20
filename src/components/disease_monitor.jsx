@@ -22,7 +22,7 @@ const DiseaseMonitoring = () => {
   const fetchDiseaseData = async () => {
     try {
       const response = await axios.post(
-        'http://localhost/hc_assist2/src/zbackend_folder/disease_monitor.php'
+        'https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/disease_monitor.php'
       );
 
       const { ongoing_diseases, ongoing_percentage, non_ongoing_percentage } = response.data;
@@ -56,9 +56,9 @@ const DiseaseMonitoring = () => {
     const p = parseFloat(percentage);
     if (isNaN(p)) return '/flags/gray-flag.png';
 
-    if (p >= 90) return 'http://localhost/hc_assist2/src/components/flags/redFlag.png';
-    if (p >= 60) return 'http://localhost/hc_assist2/src/components/flags/yellowFlag.png';
-    return 'http://localhost/hc_assist2/src/components/flags/greenFlag.png';
+    if (p >= 90) return 'https://slategrey-stingray-471759.hostingersite.com/api/hc/assets/flags/redFlag.png';
+    if (p >= 60) return 'https://slategrey-stingray-471759.hostingersite.com/api/hc/assets/flags/yellowFlag.png';
+    return 'https://slategrey-stingray-471759.hostingersite.com/api/hc/assets/flags/greenFlag.png';
   };
 
   return (

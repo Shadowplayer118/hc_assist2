@@ -23,7 +23,7 @@ const Patient = () => {
     const fetchAcceptance = async () => {
       try {
         const response = await axios.post(
-          "http://localhost/hc_assist2/src/zbackend_folder/check_acceptance.php",
+          "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/check_acceptance.php",
           { patient_id: patientId }
         );
 
@@ -44,7 +44,7 @@ const Patient = () => {
 
       try {
         const response = await axios.post(
-          "http://localhost/hc_assist2/src/zbackend_folder/load_logged_patient.php",
+          "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_logged_patient.php",
           { patient_id: patientId }
         );
 
@@ -61,7 +61,7 @@ const Patient = () => {
   const handleAccept = async () => {
     try {
       await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/update_acceptance.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/update_acceptance.php",
         { patient_id: patientId }
       );
       setHasAccepted(true);
@@ -138,10 +138,10 @@ const Patient = () => {
               <div className="profile-body">
                 <div className="profile-image">
                   <img
-                    src={`http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${patient.patient_image}`}
+                    src={`https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Patient_Images/${patient.patient_image}`}
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = "http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg";
+                      e.target.src = "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg";
                     }}
                     alt="Patient"
                     className="patient-photo"

@@ -25,7 +25,7 @@ const fetchAssignedWorkflows = async () => {
   setMessage(null);
   try {
     const response = await axios.get(
-      `http://localhost/hc_assist2/src/zbackend_folder/load_workflow_assign_staff.php`,
+      `https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_workflow_assign_staff.php`,
       {
         params: { staff_id: staffId }
       }
@@ -67,7 +67,7 @@ const fetchAssignedWorkflows = async () => {
 
       try {
         const response = await axios.post(
-          "http://localhost/hc_assist2/src/zbackend_folder/delete_assign_workflow.php",
+          "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/delete_assign_workflow.php",
           payload
         );
         fetchAssignedWorkflows();

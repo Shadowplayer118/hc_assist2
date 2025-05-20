@@ -21,7 +21,7 @@ function WorkflowAssignBoard() {
     setLoading(true);
     setMessage(null);
     try {
-      const response = await axios.get("http://localhost/hc_assist2/src/zbackend_folder/load_workflow_assign.php");
+      const response = await axios.get("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_workflow_assign.php");
       if (response.data.success && Array.isArray(response.data.assignedWorkflows)) {
         setAssignedWorkflows(response.data.assignedWorkflows);
       } else {
@@ -57,7 +57,7 @@ function WorkflowAssignBoard() {
 
       try {
         const response = await axios.post(
-          "http://localhost/hc_assist2/src/zbackend_folder/delete_assign_workflow.php",
+          "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/delete_assign_workflow.php",
           payload
         );
         fetchAssignedWorkflows();

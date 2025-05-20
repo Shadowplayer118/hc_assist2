@@ -25,7 +25,7 @@ function MedTable() {
     useEffect(() => {
     const sendAlert = async () => {
       try {
-        const response = await axios.get('http://localhost/hc_assist2/src/zbackend_folder/notify_expired.php');
+        const response = await axios.get('https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/notify_expired.php');
         setResponseMsg(response.data.message || 'Email sent.');
       } catch (error) {
         setResponseMsg('Failed to send alert: ' + (error.response?.data?.message || error.message));
@@ -43,7 +43,7 @@ function MedTable() {
 
   const fetchMeds = async (filters = {}) => {
     try {
-      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/load_med.php", filters);
+      const response = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_med.php", filters);
       setMeds(response.data.meds);
       setFilterOptions({
         brands: response.data.filters.brands || [],
@@ -81,7 +81,7 @@ function MedTable() {
     const staffId = user ? user.staff_id : "";
 
     try {
-      const response = await axios.post('http://localhost/hc_assist2/src/zbackend_folder/delete_med.php', {
+      const response = await axios.post('https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/delete_med.php', {
         meds_id: med.meds_id,
         staff_id: staffId,
       });

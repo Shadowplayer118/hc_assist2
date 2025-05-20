@@ -21,7 +21,7 @@ function AddAssignedWorkflowModal({ workflow, onClose }) {
 
   const fetchMidwifeStaff = async () => {
     try {
-      const response = await axios.get("http://localhost/hc_assist2/src/zbackend_folder/get_midwifestaff.php");
+      const response = await axios.get("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/get_midwifestaff.php");
       setStaffList(response.data.staff || []);
     } catch (err) {
       console.error("Error fetching staff:", err);
@@ -60,7 +60,7 @@ function AddAssignedWorkflowModal({ workflow, onClose }) {
         deadline, // Include deadline in payload
       };
 
-      await axios.post("http://localhost/hc_assist2/src/zbackend_folder/add_assign_workflow.php", payload);
+      await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/add_assign_workflow.php", payload);
 
       alert("Assigned workflow added successfully!");
       onClose();

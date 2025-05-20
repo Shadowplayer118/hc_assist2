@@ -48,7 +48,7 @@ function EditScheduleModal({ onClose, scheduleData = null }) {
       });
 
       await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/edit_schedule.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/edit_schedule.php",
         formPayload,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -72,7 +72,7 @@ function EditScheduleModal({ onClose, scheduleData = null }) {
       });
 
       await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/edit_schedule.php", // This is the same endpoint, but it handles status updates too
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/edit_schedule.php", // This is the same endpoint, but it handles status updates too
         formPayload,
         {
           headers: { "Content-Type": "multipart/form-data" },

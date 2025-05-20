@@ -22,7 +22,7 @@ function MedicalRecordsTable() {
   const fetchMedicalData = async () => {
     try {
       const response = await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/load_medical_records.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_medical_records.php",
         {
           patient_id: patientId,
           start_date: startDate,
@@ -57,7 +57,7 @@ function MedicalRecordsTable() {
       const staffId = user?.staff_id || "";
 
       await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/delete_medical_record.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/delete_medical_record.php",
         {
           record_id: recordId,
           staff_id: staffId,
@@ -79,12 +79,12 @@ function MedicalRecordsTable() {
       {patientInfo && (
         <div className="admin_patient_info">
           <img
-            src={`http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${patientInfo.patient_image || "PatientDefault.jpg"}`}
+            src={`https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Patient_Images/${patientInfo.patient_image || "PatientDefault.jpg"}`}
             alt="Patient"
             className="admin_patient_image"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = "http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg";
+              e.target.src = "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg";
             }}
           />
           <div className="admin_patient_name">

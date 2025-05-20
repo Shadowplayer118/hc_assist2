@@ -37,7 +37,7 @@ function StockMedModal({ medData, onClose, onSuccess }) {
         data.append(key, formData[key]);
       });
 
-      await axios.post("http://localhost/hc_assist2/src/zbackend_folder/stock_meds.php", data);
+      await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/stock_meds.php", data);
 
       alert("Medicine stock updated successfully!");
       onClose();

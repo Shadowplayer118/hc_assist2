@@ -9,7 +9,7 @@ function AddMedModal({ onClose }) {
     units: "",
     price: "",
     med_image: null,
-    image_preview: "http://localhost/hc_assist2/src/zbackend_folder/uploads/Med_Images/MedDefault.jpg",
+    image_preview: "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Med_Images/MedDefault.jpg",
   });
 
   const handleChange = (e) => {
@@ -37,7 +37,7 @@ function AddMedModal({ onClose }) {
         formDataToSubmit.append(key, formData[key]);
       });
 
-      await axios.post("http://localhost/hc_assist2/src/zbackend_folder/add_med.php", formDataToSubmit, {
+      await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/add_med.php", formDataToSubmit, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

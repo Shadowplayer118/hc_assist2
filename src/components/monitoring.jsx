@@ -20,7 +20,7 @@ const Monitoring = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        'http://localhost/hc_assist2/src/zbackend_folder/load_monitoring.php',
+        'https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_monitoring.php',
         { range }
       );
       setSchedules(response.data);
@@ -61,8 +61,8 @@ const Monitoring = () => {
               <img
                 src={
                   sched.patient_image
-                    ? `http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${sched.patient_image}`
-                    : 'http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg'
+                    ? `https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Patient_Images/${sched.patient_image}`
+                    : 'https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg'
                 }
                 alt={`${sched.first_name} ${sched.last_name}`}
                 className="schedule-img"

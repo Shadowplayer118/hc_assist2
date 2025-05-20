@@ -22,7 +22,7 @@ function StaffTable() {
 
   const fetchStaff = async (filters = {}) => {
     try {
-      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/load_staff.php", filters);
+      const response = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_staff.php", filters);
       setStaffList(response.data.staff);
       setFilterOptions(response.data.filters);
     } catch (err) {
@@ -46,7 +46,7 @@ function StaffTable() {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const currentAdminId = user ? user.staff_id : "";
-      await axios.post("http://localhost/hc_assist2/src/zbackend_folder/delete_staff.php", {
+      await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/delete_staff.php", {
         staff_id: staffId,
         admin_id: currentAdminId,
       });

@@ -20,7 +20,7 @@ const PatientCalendar = () => {
   useEffect(() => {
     if (!patient_id) return;
 
-    axios.post('http://localhost/hc_assist2/src/zbackend_folder/load_patient_calendar.php', {
+    axios.post('https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_patient_calendar.php', {
       patient_id: patient_id
     })
       .then(response => {
@@ -157,7 +157,7 @@ const PatientCalendar = () => {
             <div key={schedule.sched_id} className="schedule-details">
               <div className="patient-image">
                 <img
-                  src={`http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${schedule.patient_image || 'PatientDefault.jpg'}`}
+                  src={`https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Patient_Images/${schedule.patient_image || 'PatientDefault.jpg'}`}
                   alt={`${schedule.first_name} ${schedule.last_name}`}
                 />
               </div>

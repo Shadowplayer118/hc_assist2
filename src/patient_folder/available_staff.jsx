@@ -15,7 +15,7 @@ function StaffBoard() {
     try {
       setLoading(true);
       const response = await axios.get(
-        "http://localhost/hc_assist2/src/zbackend_folder/load_active_staff.php"
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_active_staff.php"
       );
       setStaffList(response.data.staff);
     } catch (err) {
@@ -57,14 +57,14 @@ function StaffBoard() {
                       <img
                         src={
                           staff.staff_image
-                            ? `http://localhost/hc_assist2/src/zbackend_folder/uploads/Staff_Images/${staff.staff_image}`
-                            : `http://localhost/hc_assist2/src/zbackend_folder/uploads/Staff_Images/StaffDefault.jpg`
+                            ? `https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Staff_Images/${staff.staff_image}`
+                            : `https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Staff_Images/StaffDefault.jpg`
                         }
                         alt={`${staff.first_name} ${staff.last_name}`}
                         className="staff-image"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = "http://localhost/hc_assist2/src/zbackend_folder/uploads/Staff_Images/StaffDefault.jpg";
+                          e.target.src = "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Staff_Images/StaffDefault.jpg";
                         }}
                       />
                       <span className={`status-indicator ${staff.is_active === "true" ? "active" : "inactive"}`}></span>

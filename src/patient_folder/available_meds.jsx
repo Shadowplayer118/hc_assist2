@@ -14,7 +14,7 @@ function MedBoard() {
   const fetchMeds = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("http://localhost/hc_assist2/src/zbackend_folder/load_active_meds.php");
+      const response = await axios.get("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_active_meds.php");
       setMedsList(response.data.meds);
       setLoading(false);
     } catch (err) {
@@ -49,8 +49,8 @@ function MedBoard() {
                 <img
                   src={
                     med.med_image
-                      ? `http://localhost/hc_assist2/src/zbackend_folder/uploads/Med_Images/${med.med_image}`
-                      : `http://localhost/hc_assist2/src/zbackend_folder/uploads/Med_Images/MedDefault.jpg`
+                      ? `https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Med_Images/${med.med_image}`
+                      : `https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Med_Images/MedDefault.jpg`
                   }
                   alt={med.item_name}
                   className="med-image"

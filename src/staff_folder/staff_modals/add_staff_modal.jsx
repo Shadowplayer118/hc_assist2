@@ -16,7 +16,7 @@ function AddStaffModal({ onClose }) {
     password: "",
     gmail: "",
     staff_image: null,
-    image_preview: 'http://localhost/hc_assist2/src/zbackend_folder/uploads/Staff_Images/StaffDefault.jpg',
+    image_preview: 'https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Staff_Images/StaffDefault.jpg',
   });
 
   const handleChange = (e) => {
@@ -64,7 +64,7 @@ function AddStaffModal({ onClose }) {
         formDataToSubmit.append(key, formData[key]);
       });
 
-      await axios.post("http://localhost/hc_assist2/src/zbackend_folder/add_staff.php", formDataToSubmit, {
+      await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/add_staff.php", formDataToSubmit, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

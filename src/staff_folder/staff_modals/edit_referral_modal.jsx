@@ -46,7 +46,7 @@ function EditReferralModal({ onClose, referralData = null }) {
       });
 
       await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/edit_referral.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/edit_referral.php",
         formPayload,
         {
           headers: { "Content-Type": "multipart/form-data" },

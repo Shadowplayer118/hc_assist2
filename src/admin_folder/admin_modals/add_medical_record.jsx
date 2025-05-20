@@ -36,7 +36,7 @@ function AddMedicalRecordModal({ onClose }) {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/add_medical_record.php", formData);
+      const response = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/add_medical_record.php", formData);
       alert("Medical record added successfully!");
       onClose();
     } catch (err) {

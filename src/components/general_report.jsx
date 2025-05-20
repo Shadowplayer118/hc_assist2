@@ -31,7 +31,7 @@ const GeneralReport = () => {
   const fetchReport = async (month, year) => {
     try {
       const { data } = await axios.get(
-        `http://localhost/hc_assist2/src/zbackend_folder/load_gen_report.php?month=${month}&year=${year}`
+        `https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_gen_report.php?month=${month}&year=${year}`
       );
       setReport(data);
     } catch (error) {
@@ -42,7 +42,7 @@ const GeneralReport = () => {
   const fetchNewReport = async (month, year) => {
     try {
       const { data } = await axios.get(
-        `http://localhost/hc_assist2/src/zbackend_folder/load_monthly_report.php?month=${month}&year=${year}`
+        `https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_monthly_report.php?month=${month}&year=${year}`
       );
       setNewReport(data);
     } catch (error) {

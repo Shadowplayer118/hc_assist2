@@ -27,7 +27,7 @@ function ViewAssignedWorkflowModal({ workflow, onClose }) {
 
   const fetchStaff = async () => {
     try {
-      const response = await axios.get("http://localhost/hc_assist2/src/zbackend_folder/get_midwifestaff.php");
+      const response = await axios.get("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/get_midwifestaff.php");
       if (response.data.success && Array.isArray(response.data.staff)) {
         setStaffList(response.data.staff);
       }
@@ -45,7 +45,7 @@ function ViewAssignedWorkflowModal({ workflow, onClose }) {
       };
 
       const response = await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/edit_assign_workflow.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/edit_assign_workflow.php",
         payload
       );
 
@@ -73,7 +73,7 @@ function ViewAssignedWorkflowModal({ workflow, onClose }) {
     const newStatus = step.is_completed === "true" ? "false" : "true";
 
     try {
-      await axios.post("http://localhost/hc_assist2/src/zbackend_folder/edit_progress.php", {
+      await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/edit_progress.php", {
         prog_id: step.prog_id,
         is_completed: newStatus,
       });

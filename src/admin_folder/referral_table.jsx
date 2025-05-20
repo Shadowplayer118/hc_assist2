@@ -22,7 +22,7 @@ function ReferralTable() {
 
   const fetchReferralData = async () => {
     try {
-      const response = await axios.post("http://localhost/hc_assist2/src/zbackend_folder/load_referral.php", {
+      const response = await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/load_referral.php", {
         patient_id: patientId,
         start_date: startDate,
         end_date: endDate,
@@ -55,7 +55,7 @@ function ReferralTable() {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const staffId = user ? user.staff_id : "";
-      await axios.post("http://localhost/hc_assist2/src/zbackend_folder/delete_referral.php", {
+      await axios.post("https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/delete_referral.php", {
         record_id: recordId,
         staff_id: staffId
       });
@@ -76,11 +76,11 @@ function ReferralTable() {
         <div className="admin_patient_referral_header">
           <img
             className="admin_patient_referral_image"
-            src={`http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/${patientInfo.patient_image || "PatientDefault.jpg"}`}
+            src={`https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Patient_Images/${patientInfo.patient_image || "PatientDefault.jpg"}`}
             alt="Patient"
             onError={(e) => {
               e.target.onerror = null;
-              e.target.src = "http://localhost/hc_assist2/src/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg";
+              e.target.src = "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/uploads/Patient_Images/PatientDefault.jpg";
             }}
           />
           <div>

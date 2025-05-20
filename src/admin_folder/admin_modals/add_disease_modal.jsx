@@ -35,7 +35,7 @@ function AddDiseaseModal({ onClose }) {
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost/hc_assist2/src/zbackend_folder/add_disease.php",
+        "https://slategrey-stingray-471759.hostingersite.com/api/hc/zbackend_folder/add_disease.php",
         formData
       );
       alert("Disease record added successfully!");
